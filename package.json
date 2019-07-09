@@ -1,0 +1,9 @@
+{
+  "name": "styling",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "stylus": "^0.54.5"
+  }
+}
