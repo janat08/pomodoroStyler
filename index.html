@@ -2,24 +2,12 @@
 
 <head>
     <!-- UIkit CSS -->
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.6/css/uikit.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.6/css/uikit.min.css" />
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.6/js/uikit.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.6/js/uikit-icons.min.js"></script>
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.4/hammer.min.js"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/slabText/2.3/jquery.slabtext.min.js"></script>
-
-    <!-- <link rel="stylesheet" href="./style.css" /> -->
-    <link rel="stylesheet" href="./slabtext.css" />
-
-    <!-- <script
-			  src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-			  integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
-              crossorigin="anonymous"></script> -->
-            <script src="./fittext.js"></script>
-                        <!-- <script src="./bigtext.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.4/hammer.min.js"></script>
 
 </head>
 
@@ -34,30 +22,6 @@
             </ul>
         </div>
     </nav>
-    <!-- <div id="bigtext">
-        Makes Text Big
-    </div> -->
-    <div id="bigtext">
-        <span>BIGTEXT</span>
-        <span>Makes Text Big</span>
-    </div>
-    <!-- <div id="responsive_headline"> asdfsdf</div> -->
-    <script>
-//   jQuery("#responsive_headline").fitText();
-      </script>
-  <!-- <h1><span class="slabtext">22:22</span></h1> -->
-
-    <!-- <p style="width: 50%; height: 50%">            
-        <h1>
-        <span class="slabtext">sdfsdf sdfsdf</span>
-    </h1>
-</p> -->
-
-    <!-- <div style="width: 200px; height: 200px"> -->
-    <!-- <div class="stretch">
-        <div style="font-size: 30vmin">22:22</div>
-    </div> -->
-    <div style="font-size: 35vmin">22:22</div>
 
     <!-- </div> -->
     <button class="uk-button uk-button-default uk-margin-small-right" type="button"
@@ -70,20 +34,34 @@
         <div class="uk-modal-dialog uk-modal-body modal-color">
             <button class="uk-modal-close-full uk-close-large" type="button" uk-close></button>
             <h2 class="uk-modal-title modal-color">Timer</h2>
-            <p style="width: 100%; height: 100%">22:22</p>
-            <h1>
-                <span class="slabtext">sdfsdf sdfsdf</span>
-            </h1>
+            <div style="font-size: 35vmin">22:22</div>
         </div>
     </div>
     <ul uk-accordion>
-        <li>
+        <li class="uk-open">
             <a class="uk-accordion-title" href="#">Settings</a>
-            <div class="uk-accordion-content"></div>
+            <div class="uk-accordion-content">
+                <form class="uk-form-horizontal uk-margin-large">
+
+                    <div class="uk-margin">
+                        <label class="uk-form-label" for="form-horizontal-text">sssssssssssssssssssssssaaaaaaaa</label>
+                        <div class="uk-form-controls">
+                            <input class="uk-input uk-form-width-xsmall" id="form-horizontal-text" type="text" placeholder="Some text...">
+                        </div>
+                    </div>
+<!--                 
+                    <div class="uk-width-1-2@s">
+                        <input class="uk-input uk-form-width-xsmall" type="text" placeholder="XSmall">
+                    </div> -->
+                
+                </form>
+            </div>
         </li>
         <li>
             <a class="uk-accordion-title" href="#">Donations</a>
-            <div class="uk-accordion-content"></div>
+            <div class="uk-accordion-content">
+                paypal/bitcoin
+            </div>
         </li>
     </ul>
 

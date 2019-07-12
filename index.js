@@ -1,17 +1,10 @@
 import classes from './style.css';
-import classes3 from './slabtext.css';
 import classes2 from './newTimer.styl';
 
-  // $('#bigtext').fittext();    
-  $("h1").slabText({
-    // Don't slabtext the headers if the viewport is under 380px
-    // "viewportBreakpoint":380
-});
 
 export default () => {
   var a = classes
   classes2
-  classes3
 };
 
 // var pomodoro = {
