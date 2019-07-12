@@ -189,6 +189,11 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
+},{"_css_loader":"../npm/lib/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"slabtext.css":[function(require,module,exports) {
+var reloadCSS = require('_css_loader');
+
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
 },{"_css_loader":"../npm/lib/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"newTimer.styl":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
@@ -204,13 +209,21 @@ exports.default = void 0;
 
 var _style = _interopRequireDefault(require("./style.css"));
 
+var _slabtext = _interopRequireDefault(require("./slabtext.css"));
+
 var _newTimer = _interopRequireDefault(require("./newTimer.styl"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// $('#bigtext').fittext();    
+$("h1").slabText({// Don't slabtext the headers if the viewport is under 380px
+  // "viewportBreakpoint":380
+});
+
 var _default = function _default() {
   var a = _style.default;
   _newTimer.default;
+  _slabtext.default;
 }; // var pomodoro = {
 //     started : false,
 //     minutes : 0,
@@ -299,7 +312,7 @@ var _default = function _default() {
 
 
 exports.default = _default;
-},{"./style.css":"style.css","./newTimer.styl":"newTimer.styl"}],"../npm/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./style.css":"style.css","./slabtext.css":"slabtext.css","./newTimer.styl":"newTimer.styl"}],"../npm/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -327,7 +340,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "35321" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "33489" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

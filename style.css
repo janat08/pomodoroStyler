@@ -1,9 +1,41 @@
+.stretch {
+  background-color: yellow;
+  font-size: 100vmin;
+  width: 100vw;
+  height: 100vh;
+}
 
+.uk-modal-dialog {
+  /* opacity: 0.2!important */
+  background-color: transparent;
+  border: 5px solid;
+  mix-blend-mode: difference;
+}
 
+.uk-modal {
+  /* animation: 3s linear slide; */
+  background:hsla(9.1, 100% , 63.9%, 80%);
+}
 
+.modal-color {
+  color: white;
+  mix-blend-mode: difference;
+}
+.modal-color:focus {
+  color: black
+}
+
+@keyframes slide {
+  0% {
+    background : hsla(120, 100% , 63.9%, 10%);
+  }
+  100% {
+    background:hsla(9.1, 100% , 63.9%, 100%);
+  }
+}
 
 /* initial //////////////////////////////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/// */
-#container{
+/* #container{
     border:1px solid #333;
     border-radius :20px;
     width:400px;
@@ -78,4 +110,4 @@
   #buttons button#stop{
     background : #f00;
   }
-  
+   */

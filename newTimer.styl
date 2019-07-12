@@ -1,7 +1,7 @@
 timeout = 1880s
 
 minsSize = 8rem
-secsSize = 6rem
+secsSize = 8rem
 pretimeout = timeout - 1s
 minstens = (6000s - timeout + 599s) * -1
 tmod = timeout % 600
@@ -9,58 +9,31 @@ minsones = (600s - tmod + 59s) * -1
 secstens = (60s - (tmod % 60) + 9s) * -1
 secsones = (10s - (tmod % 10)) * -1
 
-body, html
-  margin 0
-  height 100%
-body
-  display flex
-  justify-content center
-  align-items center
-  font-family 'Helvetica Neue', Helvetica, Arial, sans-serif
-  margin 0
-  font-size 14px
-  background #f4f4f4
+
 a
   text-decoration none
 .fr
   display flex
-.fc
-  display flex
-  flex-direction column
+
 .timer-wrap
-  background-size cover
-  border 1.4rem solid white
+//   background-size cover
+//   border 1.4rem solid white
   padding 2rem
-  color white
+  color black
   width 486px
   box-sizing border-box
   margin 0 auto 1rem auto
   .timer
     padding 1rem
     position relative
-    background #031722
-    box-shadow 0 0 1rem black
-    h2
-      margin 0
-      font-weight 600
-      font-size 1rem
-      color #C20D78
-      animation fadeout 2s pretimeout linear forwards
-    .view
-      margin .5rem 0 1rem 0
-      color inherit
-      animation fadeout 2s pretimeout linear forwards
-      span
-        background #C20D78
-        padding 0.3rem 1rem
+    // background #031722
+    // box-shadow 0 0 1rem black
     .numbers
       align-items flex-end
-      font-size 12px
-      animation fadeout 2s pretimeout linear forwards
       .mins
-        font-size minsSize
-        line-height minsSize
-        height minsSize
+        font-size 8rem
+        line-height 6rem
+        height 10rem
         overflow hidden
         &.ones .numlist
           animation minones-jaggy 600s linear infinite
@@ -69,9 +42,9 @@ a
           animation mintens-jaggy 6000s linear forwards
           animation-delay minstens
       .secs
-        font-size secsSize
-        line-height secsSize
-        height secsSize
+        font-size 8rem
+        line-height 6rem
+        height 10rem
         overflow hidden
         &.ones .numlist
           animation secones-jaggy 10s linear infinite
@@ -84,51 +57,19 @@ a
         box-shadow inset 0 0 3px rgba(255,255,255,0.2)
         margin-right 0.5rem
       .seperator
-        font-size 3rem
-        line-height 6rem
+        height: 8rem
+        font-size 8rem
+        line-height 7rem
         margin-right 0.5rem
-    .callout
-      position absolute
-      top -1.6rem
-      right -1.6rem
-      background #C20D78
-      text-align center
-      border-radius 50%
-      height 10rem
-      width 10rem
-      display flex
-      flex-direction column
-      justify-content center
-      z-index 10
-      font-size 1rem
-      animation moveCallout 1s pretimeout forwards
-      .price
-        font-size 3.6em
-        display flex
-        justify-content center
-        align-content flex-start
-        span
-          font-size .6em
-          line-height 1.4
-      .sub
-        font-size .8em
-        span
-          font-size .6rem
-          line-height 1.4
-      .now, .price, .sub
-        animation shrinkFade 1s pretimeout forwards
-      .timeout
-        opacity 0
-        height 0
-        animation growFade .5s pretimeout forwards
+    
 @keyframes secones-jaggy
   for i in 0..10
     {10% * i}
-      transform translateY(-6rem * i)
+      transform translateY(-8rem * i)
 @keyframes sectens-jaggy
   for i in 0..6
     {100% / 6 * i}
-      transform translateY(-6rem * i)
+      transform translateY(-8rem * i)
 @keyframes minones-jaggy
   for i in 0..10
     {10% * i}
@@ -137,22 +78,3 @@ a
   for i in 0..10
     {100% / 10 * i}
       transform translateY(-8rem * i)
-@keyframes fadeout
-  0%
-    opacity 1
-  100%
-    opacity 0
-@keyframes shrinkFade
-  100%
-    height 0
-    margin 0
-    opacity 0
-@keyframes growFade
-  100%
-    height auto
-    opacity 1
-@keyframes moveCallout
-  100%
-    top 50%
-    left 50%
-    transform translate(-50%, -50%)
