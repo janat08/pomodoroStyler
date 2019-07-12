@@ -6,7 +6,7 @@ body {
     display: -moz-inline-box;
     display: inline-block;
     white-space: nowrap;
-  }
+  } 
   
   .slabtextinactive .slabtext {
     display: inline;
