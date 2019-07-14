@@ -4,9 +4,15 @@
   "main": "index.js",
   "license": "MIT",
   "devDependencies": {
+    "sass": "^1.22.4",
     "stylus": "^0.54.5"
   },
-  "scripts":{
+  "scripts": {
     "dev": "parcel index.html -p 3000"
+  },
+  "dependencies": {
+    "bulma": "^0.7.5",
+    "bulma-extensions": "^6.2.7",
+    "bulma-modal-fx": "^1.1.1"
   }
 }

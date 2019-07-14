@@ -2,84 +2,133 @@
 
 <head>
     <!-- UIkit CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.6/css/uikit.min.css" />
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.6/js/uikit.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.6/js/uikit-icons.min.js"></script>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.4/hammer.min.js"></script>
+    <!-- modal -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css"
+        integrity="sha256-vK3UTo/8wHbaUn+dTQD0X6dzidqc5l7gczvH+Bnowwk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://unpkg.com/bulma-modal-fx@1.1.1/dist/css/modal-fx.min.css" />
 
+    <script src="https://kit.fontawesome.com/f4638bd532.js"></script>
 </head>
 
 <body>
-    <nav class="uk-navbar-container" uk-navbar>
-        <div class="uk-navbar-left">
-            <ul class="uk-navbar-nav">
-                <li class="uk-active"><a href="">Timer</a></li>
-                <li><a href="">Why</a></li>
-                <li><a href="">Features</a></li>
-                <li><a href="">Roadmap</a></li>
-            </ul>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="/">
+                <img src="./Pomodoro-Timer.png">
+            </a>
+
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+                data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item is-active" href="/">
+                    Timer
+                </a>
+                <a class="navbar-item" target="_blank" href="https://francescocirillo.com/pages/pomodoro-technique">
+                    Why/How
+                </a>
+                <a class="navbar-item">
+                    Features
+                </a>
+                <a class="navbar-item">
+                    Roadmap
+                </a>
+            </div>
         </div>
     </nav>
-
-    <!-- </div> -->
-    <button class="uk-button uk-button-default uk-margin-small-right" type="button"
-        uk-toggle="target: #timer">Begin/open
+    <section class="hero">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Pomodoro Timer
+                </h1>
+                <h2 class="subtitle">
+                    Track your 25 minute sessions
+                </h2>
+                <button class="button modal-button open-modal is-medium" data-target="modal-image">
+                    <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                        <path style="fill:#363636"
+                            d="M13.5,8H12V13L16.28,15.54L17,14.33L13.5,12.25V8M13,3A9,9 0 0,0 4,12H1L4.96,16.03L9,12H6A7,7 0 0,1 13,5A7,7 0 0,1 20,12A7,7 0 0,1 13,19C11.07,19 9.32,18.21 8.06,16.94L6.64,18.36C8.27,20 10.5,21 13,21A9,9 0 0,0 22,12A9,9 0 0,0 13,3" />
+                    </svg>
+                    Begin/open
+                    Work/Break 25min
+                </button>
+                <button class="button modal-button open-modal is-medium" data-target="modal-image">
+                        <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                            <path style="fill:#363636"
+                                d="M13.5,8H12V13L16.28,15.54L17,14.33L13.5,12.25V8M13,3A9,9 0 0,0 4,12H1L4.96,16.03L9,12H6A7,7 0 0,1 13,5A7,7 0 0,1 20,12A7,7 0 0,1 13,19C11.07,19 9.32,18.21 8.06,16.94L6.64,18.36C8.27,20 10.5,21 13,21A9,9 0 0,0 22,12A9,9 0 0,0 13,3" />
+                        </svg>
+                        Start standalone break
+                    </button>
+            </div>
+        </div>
+    </section>
+    <button class="button modal-button open-modal is-medium" data-target="modal-image">
+        <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+            <path style="fill:#363636"
+                d="M13.5,8H12V13L16.28,15.54L17,14.33L13.5,12.25V8M13,3A9,9 0 0,0 4,12H1L4.96,16.03L9,12H6A7,7 0 0,1 13,5A7,7 0 0,1 20,12A7,7 0 0,1 13,19C11.07,19 9.32,18.21 8.06,16.94L6.64,18.36C8.27,20 10.5,21 13,21A9,9 0 0,0 22,12A9,9 0 0,0 13,3" />
+        </svg>
+        Begin/open
         Work/Break 25min
     </button>
-
-    <!-- This is the modal with the default close button -->
-    <div id="timer" uk-modal class="uk-modal-full" style="opacity:1">
-        <div class="uk-modal-dialog uk-modal-body modal-color">
-            <button class="uk-modal-close-full uk-close-large" type="button" uk-close></button>
-            <h2 class="uk-modal-title modal-color">Timer</h2>
-            <div style="font-size: 35vmin">22:22</div>
+    <div id="modal-image" class="modal modal-full-screen">
+        <div class="modal-background"></div>
+        <div class="modal-content modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">session 3/4; Working/Breaking</p>
+                <button class="modal-button-close is-large delete" aria-label="close"></button>
+            </header>
+            <section class="modal-card-body modal-background-colored">
+                <div class="modal-content-colored">
+                    <div style="font-size: 35vmin; text-align: center;">22:22</div>
+                </div>
+            </section>
+            <footer class="modal-card-foot">
+                <a href="#" class="card-footer-item">Save</a>
+            </footer>
         </div>
     </div>
-    <ul uk-accordion>
-        <li class="uk-open">
-            <a class="uk-accordion-title" href="#">Settings</a>
-            <div class="uk-accordion-content">
-                <form class="uk-form-horizontal uk-margin-large">
 
-                    <div class="uk-margin">
-                        <label class="uk-form-label" for="form-horizontal-text">sssssssssssssssssssssssaaaaaaaa</label>
-                        <div class="uk-form-controls">
-                            <input class="uk-input uk-form-width-xsmall" id="form-horizontal-text" type="text" placeholder="Some text...">
-                        </div>
-                    </div>
-<!--                 
-                    <div class="uk-width-1-2@s">
-                        <input class="uk-input uk-form-width-xsmall" type="text" placeholder="XSmall">
-                    </div> -->
-                
-                </form>
+    <section class="accordions">
+        <article class="accordion is-active">
+            <div class="accordion-header toggle">
+                <i class="fas fa-sliders-h"></i>Settings and Options
             </div>
-        </li>
-        <li>
-            <a class="uk-accordion-title" href="#">Donations</a>
-            <div class="uk-accordion-content">
-                paypal/bitcoin
+            <div class="accordion-body">
+                <div class="accordion-content">
+                    sdf
+                </div>
             </div>
-        </li>
-    </ul>
+        </article>
+        <article class="accordion">
+            <div class="accordion-header toggle">
+                <i class="fas fa-donate"></i>
+                <p>Donations and Tips</p>
+            </div>
+            <div class="accordion-body">
+                <div class="accordion-content">
+                    sdf
+                </div>
+            </div>
+        </article>
+    </section>
 
-
-    <!-- <button class="uk-button uk-button-default uk-margin-small-right" type="button"
-        uk-toggle="target: #settings">Settings and Options</button>
-    <button class="uk-button uk-button-default uk-margin-small-right" type="button"
-        uk-toggle="target: #donations">Support and Donations</button> -->
-
-
-
-    <footer id="page-footer" uk-sticky>
-        <div class="uk-container uk-padding-small">
-            <p class="uk-text-small"><a href="">Privacy Policy</a>
-                <a href="mailto:jey.and.key@gmail.com">jey.and.key@gmail.com</a></p>
+    <footer class="footer">
+        <div class="content has-text-centered">
+            <p><a href="">Privacy Policy</a></p>
+            <p><a href="mailto:jey.and.key@gmail.com">jey.and.key@gmail.com</a></p>
         </div>
     </footer>
     <script src="./index.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/bulma-modal-fx@1.1.1/dist/js/modal-fx.min.js"></script>
+
 </body>
 
 </html>

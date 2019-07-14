@@ -1,33 +1,23 @@
-.stretch {
-  background-color: yellow;
-  font-size: 100vmin;
-  width: 100vw;
-  height: 100vh;
+.accordion-header {
+  justify-content: start !important;
 }
 
-.uk-modal-dialog {
-  /* opacity: 0.2!important */
-  background-color: transparent;
-  border: 5px solid;
+.accordion-header .fas {
+  padding-right: 12px;
+}
+
+.modal-background-colored {
+  animation: 5s linear slide;
+  /* background:hsla(9.1, 100% , 63.9%, 100%) !important; */
+}
+.modal-content-colored {
   mix-blend-mode: difference;
-}
-
-.uk-modal {
-  /* animation: 3s linear slide; */
-  background:hsla(9.1, 100% , 63.9%, 80%);
-}
-
-.modal-color {
-  color: white;
-  mix-blend-mode: difference;
-}
-.modal-color:focus {
-  color: black
+  color: white
 }
 
 @keyframes slide {
   0% {
-    background : hsla(120, 100% , 63.9%, 10%);
+    background : hsl(80, 100%, 40%, 100%);
   }
   100% {
     background:hsla(9.1, 100% , 63.9%, 100%);
