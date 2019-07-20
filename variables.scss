@@ -1,7 +1,17 @@
 @charset "utf-8";
-$tablet: 769px;
-$navbar-breakpoint: $tablet;
+
+$navbar-breakpoint: 500px;
+$primary: hsl(80, 100%, 40%, 100%);
+$danger: hsla(9.1, 100% , 63.9%, 100%);
+// $info: green;
+// $text: green;
+// $text-light: green;
+// $text-strong: green;
+
+// $text-invert: green;
 @import "./node_modules/bulma/bulma.sass";
 @import "./node_modules/bulma-modal-fx/dist/css/modal-fx";
 @import "./node_modules/bulma-extensions/bulma-accordion/dist/css/bulma-accordion.min";
+@import './node_modules/bulma-extensions/bulma-pageloader/dist/css/bulma-pageloader.min';
+@import './node_modules/bulma-extensions/bulma-tooltip/dist/css/bulma-tooltip.min';
 @import './style';

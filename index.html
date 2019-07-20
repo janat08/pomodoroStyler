@@ -2,16 +2,22 @@
 
 <head>
     <!-- UIkit CSS -->
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- modal -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css"
         integrity="sha256-vK3UTo/8wHbaUn+dTQD0X6dzidqc5l7gczvH+Bnowwk=" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://unpkg.com/bulma-modal-fx@1.1.1/dist/css/modal-fx.min.css" />
 
     <script src="https://kit.fontawesome.com/f4638bd532.js"></script>
+    <title>Pomodoro Timer - Tomato Timer</title>
+    <meta name="description" content="
+        Ad free and fully private pomodoro timer and tracker. Supports time display in full screen and tiny window- fully responsive.
+    ">
 </head>
 
 <body>
+    <div class="pageloader"><span class="title">loading right until before you quit on me <br>your second load will be
+            much faster</span></div>
     <nav class="navbar" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
             <a class="navbar-item" href="/">
@@ -34,25 +40,28 @@
                 <a class="navbar-item" target="_blank" href="https://francescocirillo.com/pages/pomodoro-technique">
                     Why/How
                 </a>
-                <a class="navbar-item">
-                    Features
+                <a class="navbar-item" target="_blank"
+                    href="https://zenkit.com/collections/FlmmRXn_2/views/fSZLd18WB?rfsn=2890035.bfe37d">
+                    22 Features
                 </a>
-                <a class="navbar-item">
+                <a class="navbar-item" target="_blank"
+                    href="https://zenkit.com/collections/FlmmRXn_2/views/eneQ2s6ON?rfsn=2890035.bfe37d">
                     Roadmap
                 </a>
             </div>
         </div>
     </nav>
-    <section class="hero">
+    <section class="hero is-primary">
         <div class="hero-body">
             <div class="container">
                 <h1 class="title">
                     Pomodoro Timer
                 </h1>
                 <h2 class="subtitle">
-                    Track your 25 minute sessions
+                    Time and track your 25 minute sessions
                 </h2>
-                <button class="button modal-button open-modal is-medium" data-target="modal-image">
+                <button class="button modal-button open-modal is-medium is-danger is-outlined"
+                    data-target="modal-image">
                     <svg style="width:24px;height:24px" viewBox="0 0 24 24">
                         <path style="fill:#363636"
                             d="M13.5,8H12V13L16.28,15.54L17,14.33L13.5,12.25V8M13,3A9,9 0 0,0 4,12H1L4.96,16.03L9,12H6A7,7 0 0,1 13,5A7,7 0 0,1 20,12A7,7 0 0,1 13,19C11.07,19 9.32,18.21 8.06,16.94L6.64,18.36C8.27,20 10.5,21 13,21A9,9 0 0,0 22,12A9,9 0 0,0 13,3" />
@@ -60,38 +69,47 @@
                     Begin/open
                     Work/Break 25min
                 </button>
-                <button class="button modal-button open-modal is-medium" data-target="modal-image">
-                        <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-                            <path style="fill:#363636"
-                                d="M13.5,8H12V13L16.28,15.54L17,14.33L13.5,12.25V8M13,3A9,9 0 0,0 4,12H1L4.96,16.03L9,12H6A7,7 0 0,1 13,5A7,7 0 0,1 20,12A7,7 0 0,1 13,19C11.07,19 9.32,18.21 8.06,16.94L6.64,18.36C8.27,20 10.5,21 13,21A9,9 0 0,0 22,12A9,9 0 0,0 13,3" />
-                        </svg>
-                        Start standalone break
-                    </button>
+                <button class="button modal-button open-modal is-medium" data-target="modal-image"
+                    onclick="window.open(document.URL, '_blank', 'location=no,height=200,width=180,scrollbars=no,status=no');">
+                    <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                        <path style="fill:#363636"
+                            d="M13.5,8H12V13L16.28,15.54L17,14.33L13.5,12.25V8M13,3A9,9 0 0,0 4,12H1L4.96,16.03L9,12H6A7,7 0 0,1 13,5A7,7 0 0,1 20,12A7,7 0 0,1 13,19C11.07,19 9.32,18.21 8.06,16.94L6.64,18.36C8.27,20 10.5,21 13,21A9,9 0 0,0 22,12A9,9 0 0,0 13,3" />
+                    </svg>
+                    Start in standalone minimal window
+                </button>
             </div>
         </div>
     </section>
-    <button class="button modal-button open-modal is-medium" data-target="modal-image">
-        <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-            <path style="fill:#363636"
-                d="M13.5,8H12V13L16.28,15.54L17,14.33L13.5,12.25V8M13,3A9,9 0 0,0 4,12H1L4.96,16.03L9,12H6A7,7 0 0,1 13,5A7,7 0 0,1 20,12A7,7 0 0,1 13,19C11.07,19 9.32,18.21 8.06,16.94L6.64,18.36C8.27,20 10.5,21 13,21A9,9 0 0,0 22,12A9,9 0 0,0 13,3" />
-        </svg>
-        Begin/open
-        Work/Break 25min
-    </button>
+    <section class="content">
+        <h2>Introduction</h2>
+        <p>
+            Pomodoro technique has a bunch of benefits, but my personal ones are that it lets you not sit at the
+            computer non-stop, and practice diffuse mind mode although officially you're not meant to think about work.
+            The gist of practice is that you segment your work time with short breaks after 4 of which you take a longer
+            one. You're meant to have healthy todo list, for which I recommend <a
+                href="https://zenkit.com/?rfsn=2890035.bfe37d">zenkit</a>. Learn more at Why/How page.
+        </p>
+    </section>
+    <div id="monitizationNotificaiton" class="notification">
+        I don't have ads, but there's monetization that adblocker will interfere with (affiliate links, opt-in mining).
+    </div>
     <div id="modal-image" class="modal modal-full-screen">
         <div class="modal-background"></div>
         <div class="modal-content modal-card">
-            <header class="modal-card-head">
-                <p class="modal-card-title">session 3/4; Working/Breaking</p>
+            <header class="modal-card-head" style="padding: 0">
+                <p class="modal-card-title responsive-padding">3/4;Working</p>
                 <button class="modal-button-close is-large delete" aria-label="close"></button>
             </header>
             <section class="modal-card-body modal-background-colored">
                 <div class="modal-content-colored">
-                    <div style="font-size: 35vmin; text-align: center;">22:22</div>
+                    <span class="time-code" style="font-size: 35vmin; ">22:22</span>
                 </div>
             </section>
-            <footer class="modal-card-foot">
-                <a href="#" class="card-footer-item">Save</a>
+            <footer class="modal-card-foot" style="padding: 0">
+                <a href="#" class="card-footer-item responsive-padding tooltip" data-tooltip="Pause"  aria-label="pause">Pause</a>
+                <a href="#" class="card-footer-item responsive-padding tooltip" data-tooltip="Reset"  aria-label="reset">Reset</a>
+                <a href="#" class="card-footer-item responsive-padding tooltip" data-tooltip="Fullscreen" data-toggle-fullscreen aria-label="fullscreen">fullscreen</a>
+                <a href="#" class="card-footer-item responsive-padding modal-button-close tooltip" data-tooltip="Close" aria-label="close">Close</a>
             </footer>
         </div>
     </div>
@@ -103,8 +121,117 @@
             </div>
             <div class="accordion-body">
                 <div class="accordion-content">
-                    sdf
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">Break duration</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded">
+                                    <input class="input" type="text">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">Long break duration</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded">
+                                    <input class="input" type="text">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">Session length</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded">
+                                    <input class="input" type="text">
+                                </p>
+                                <p class="help">number of work cycles before big break</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">Work duration</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded">
+                                    <input class="input" type="text">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label class="label">Autostart break</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control is-narrow">
+                                    <label class="checkbox">
+                                        <input type="checkbox">
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label class="label">Autostart work</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control is-narrow">
+                                    <label class="checkbox">
+                                        <input type="checkbox">
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label class="label">Alarm sound</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control">
+                                    <div class="select">
+                                        <select>
+                                            <option>80s Alarm</option>
+                                            <option>Alarm Clock</option>
+                                            <option>Wristwatch Alarm</option>
+                                            <option>Elevator Ding</option>
+                                            <option>Door Bell</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label class="label">Alarm volume</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded">
+                                    <input class="input" type="text">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            </div>
             </div>
         </article>
         <article class="accordion">
@@ -114,12 +241,28 @@
             </div>
             <div class="accordion-body">
                 <div class="accordion-content">
-                    sdf
+                    <p>This service is ad free, and private. There're no serius maintenance costs, except for my living.
+                    </p>
+                    Monthly: 
+                    <a href="https://www.patreon.com/bePatron?u=8723710"
+                        data-patreon-widget-type="become-patron-button">Become a Patron!</a>
+
+                    One-time: 
+                    <a class="button" href="https://paypal.me/ermonjas?locale.x=en_US">
+                        <span class="icon is-small">
+                            <i class="fab fa-paypal"></i>
+                        </span>
+                        <span>Paypal.me</span>
+                    </a>
+                    <br>
+                    Pay for what you use:
+                    <br>
+                    Mining doesn't add up to a lot in electricity consumption, or value generated. It's roughly 15$
+                    if running 24/7 for a month, of which I get over 50%.
                 </div>
             </div>
         </article>
     </section>
-
     <footer class="footer">
         <div class="content has-text-centered">
             <p><a href="">Privacy Policy</a></p>
@@ -128,56 +271,28 @@
     </footer>
     <script src="./index.js"></script>
     <script type="text/javascript" src="https://unpkg.com/bulma-modal-fx@1.1.1/dist/js/modal-fx.min.js"></script>
+    <script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script>
+    <script>
+        if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
+            console.log('escaping')
+        } else if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+                .then(function () {
+                    console.log('Service Worker Registered');
+                });
+        }
+    </script>
+    <!-- should be at bottom -->
+    <script src="/ads.js"></script>
+    <script type="text/javascript">
 
+        if (document.getElementById('liKHkvRyAnct')) {
+            console.log('Blocking Ads: No');
+        } else {
+            console.log('blocking')
+            document.getElementById('monitizationNotificaiton').style.display = 'block'
+        }
+    </script>
 </body>
 
 </html>
-
-
-
-
-<!-- <div id="pomodoro-app">
-    <div id="container">
-        <div id="timer">
-            <div id="time">
-                <span id="minutes">25</span>
-                <span id="colon">:</span>
-                <span id="seconds">00</span>
-            </div>
-            <div id="filler"></div>
-        </div>
-
-        <div id="buttons">
-            1/4
-            <button id="work">Work</button>
-            <button id="shortBreak">Short Break</button>
-            <button id="longBreak">Long Break</button>
-            <button id="stop">Stop</button>
-        </div>
-    </div>
-</div> -->
-
-<!-- <div id="settings" uk-modal class="uk-flex-top" style="opacity:1">
-        <div class="uk-modal-dialog uk-modal-body modal-color uk-margin-auto-vertical">
-            <button class="uk-modal-close-default modal-color" type="button" uk-close></button>
-            <h2 class="uk-modal-title modal-color">Settings</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim id est laborum.</p>
-            <a href="#donations" uk-toggle>Donations</a>
-        </div>
-    </div>
-
-    <div id="donations" class="uk-flex-top" uk-modal style="opacity:1">
-        <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-            <button class="uk-modal-close-default" type="button" uk-close></button>
-            <h2 class="uk-modal-title">Donations</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim id est laborum.</p>
-        </div>
-    </div> -->

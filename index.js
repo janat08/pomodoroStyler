@@ -1,6 +1,31 @@
 import variables from './variables.scss'
 import bulmaAccordion from 'bulma-extensions/bulma-accordion/dist/js/bulma-accordion'
+// import loader from 'bulma-extensions/bulma-pageloader/dist/css/'
+import {Howl, Howler} from 'howler';
+// var audio = new Audio('./ding.mp3');
+// audio.play();
 
+document.addEventListener('click', function (event) {
+	// Ignore clicks that weren't on the toggle button
+	if (!event.target.hasAttribute('data-toggle-fullscreen')) return;
+
+	// If there's an element in fullscreen, exit
+	// Otherwise, enter it
+	if (document.fullscreenElement) {
+		document.exitFullscreen();
+	} else {
+		document.documentElement.requestFullscreen();
+	}
+}, false);
+
+
+// var sound = new Howl({
+//   src: ['ding.mp3']
+// });
+
+// sound.once('load', function(){
+//   sound.play();
+// });
 
 document.addEventListener("DOMContentLoaded", function(event) { 
   bulmaAccordion.attach()
