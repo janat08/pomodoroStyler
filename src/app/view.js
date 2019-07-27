@@ -197,6 +197,18 @@ export default  ({ attrs: { state, actions } }) =>
                                     </p>
                                 </div>
                             </div>
+                        </div>                        
+                        <div class="field is-horizontal">
+                            <div class="field-label">
+                                <label class="label">Allow notifications</label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <p class="control is-expanded">
+                                        <input class="input" type="text" />
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
