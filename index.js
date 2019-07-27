@@ -4,6 +4,7 @@ import bulmaAccordion from 'bulma-extensions/bulma-accordion/dist/js/bulma-accor
 import {Howl, Howler} from 'howler';
 // var audio = new Audio('./ding.mp3');
 // audio.play();
+import "./src"
 
 document.addEventListener('click', function (event) {
 	// Ignore clicks that weren't on the toggle button

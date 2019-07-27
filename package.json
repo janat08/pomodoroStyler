@@ -4,6 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-transform-react-jsx": "^7.3.0",
+    "@babel/preset-env": "^7.5.5",
     "cssnano": "^4.1.10",
     "sass": "^1.22.4",
     "stylus": "^0.54.5"
@@ -12,9 +15,16 @@
     "dev": "parcel index.html -p 3000"
   },
   "dependencies": {
+    "bss": "^1.6.3",
     "bulma": "^0.7.5",
     "bulma-extensions": "^6.2.7",
     "bulma-modal-fx": "^1.1.1",
-    "howler": "^2.1.2"
+    "howler": "^2.1.2",
+    "meiosis-tracer": "^2.0.3",
+    "mithril": "^2.0.0-rc.6",
+    "patchinko": "^4.2.0",
+    "polythene-css": "^1.6.5",
+    "polythene-mithril": "^1.6.5",
+    "src": "^1.1.2"
   }
 }
