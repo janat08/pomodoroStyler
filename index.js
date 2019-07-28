@@ -1,34 +1,32 @@
 import variables from './variables.scss'
 import bulmaAccordion from 'bulma-extensions/bulma-accordion/dist/js/bulma-accordion'
 // import loader from 'bulma-extensions/bulma-pageloader/dist/css/'
-import {Howl, Howler} from 'howler';
-// var audio = new Audio('./ding.mp3');
-// audio.play();
 import "./src"
 
-document.addEventListener('click', function (event) {
-	// Ignore clicks that weren't on the toggle button
-	if (!event.target.hasAttribute('data-toggle-fullscreen')) return;
 
-	// If there's an element in fullscreen, exit
-	// Otherwise, enter it
-	if (document.fullscreenElement) {
-		document.exitFullscreen();
-	} else {
-		document.documentElement.requestFullscreen();
-	}
+
+if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
+} else if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js')
+    .then(function () {
+      console.log('Service Worker Registered');
+    });
+}
+
+document.addEventListener('click', function (event) {
+  // Ignore clicks that weren't on the toggle button
+  if (!event.target.hasAttribute('data-toggle-fullscreen')) return;
+
+  // If there's an element in fullscreen, exit
+  // Otherwise, enter it
+  if (document.fullscreenElement) {
+    document.exitFullscreen();
+  } else {
+    document.documentElement.requestFullscreen();
+  }
 }, false);
 
-
-// var sound = new Howl({
-//   src: ['ding.mp3']
-// });
-
-// sound.once('load', function(){
-//   sound.play();
-// });
-
-document.addEventListener("DOMContentLoaded", function(event) { 
+document.addEventListener("DOMContentLoaded", function (event) {
   bulmaAccordion.attach()
 });
 
@@ -42,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if ($navbarBurgers.length > 0) {
 
     // Add a click event on each of them
-    $navbarBurgers.forEach( el => {
+    $navbarBurgers.forEach(el => {
       el.addEventListener('click', () => {
 
         // Get the target from the "data-target" attribute
