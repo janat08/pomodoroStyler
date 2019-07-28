@@ -41,15 +41,16 @@ function setc(key, val, duration = 1000) {
   store.set(key, val, new Date().getTime() + duration) //miliseconds to cache for
 }
 // const old = c.get("save")
+let active, id
 function register() {
-  let active = c.get("ids")
-  let id = nanoid()
+  active = c.get("active")
+  id = nanoid()
   if (!active) { active = new Set() }
   active.add(id)
+  c.set('active', active)
   return id
 }
-
-let id = register()
+register()
 
 const verId = 12
 if (!ver()) { c.set("active", 1); c.set("id", 1); log('set') }
