@@ -27,6 +27,7 @@
     "mithril": "^2.0.0-rc.6",
     "mobx": ">=4",
     "mobx-stored": "^1.1.0",
+    "nanoid": "^2.0.3",
     "patchinko": "^4.2.0",
     "polythene-css": "^1.6.5",
     "polythene-mithril": "^1.6.5",
