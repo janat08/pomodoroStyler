@@ -28,6 +28,7 @@
     "mobx": ">=4",
     "mobx-stored": "^1.1.0",
     "nanoid": "^2.0.3",
+    "navigo": "^7.1.2",
     "patchinko": "^4.2.0",
     "polythene-css": "^1.6.5",
     "polythene-mithril": "^1.6.5",

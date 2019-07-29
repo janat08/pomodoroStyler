@@ -37,7 +37,80 @@
   color: white
 }
 
+@media only screen and (max-width: 420px) { 
+  .positive6 { 
+    display: none; 
+  } 
+}
+@media only screen and (max-width: 350px) { 
+  .positive5 { 
+    display: none; 
+  } 
+}
+@media only screen and (max-width: 270px) { 
+  .positive4 { 
+    display: none; 
+  } 
+}
+@media only screen and (max-width: 200px) { 
+  .positive3 { 
+    display: none; 
+  } 
+}
+@media only screen and (max-width: 140px) { 
+  .positive2 { 
+    display: none; 
+  } 
+}
+@media only screen and (max-width: 70px) { 
+  .positive1 { 
+    display: none; 
+  } 
+}
+/* negative */
+
+@media only screen and (min-width: 420px) {
+  .negative6 { 
+    display: none; 
+  } 
+}
+@media only screen and (min-width: 350px) { 
+  .negative5 { 
+    display: none; 
+  } 
+}
+@media only screen and (min-width: 270px) { 
+  .negative4 { 
+    display: none; 
+  } 
+}
+@media only screen and (min-width: 200px) { 
+  .negative3 { 
+    display: none; 
+  } 
+}
+@media only screen and (min-width: 140px) { 
+  .negative2 { 
+    display: none; 
+  } 
+}
+@media only screen and (min-width: 70px) { 
+  .negative1 { 
+    display: none; 
+  } 
+}
+
 @keyframes slide {
+  0% {
+    background : hsl(80, 100%, 40%, 100%);
+    /* background: hsl(141, 71%, 48%, 100%); */
+  }
+  100% {
+    background:hsla(9.1, 100% , 63.9%, 100%);
+  }
+}
+/* animations can't be repeted manually, outside switching animation type */
+@keyframes slideCopy {
   0% {
     background : hsl(80, 100%, 40%, 100%);
     /* background: hsl(141, 71%, 48%, 100%); */
