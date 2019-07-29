@@ -25,11 +25,6 @@ document.registerElement("generate-sound-select", class extends hyperElement {
                         ${options.map((sound, i) => render.wire(sound, `:${kind}`)`
                             <option value=${i} selected=${s[field] == i ? true : false}>${soundsNames[i]}</option>
                         `)}
-                        <!-- <option>80s Alarm</option>
-                        <option>Alarm Clock</option>
-                        <option>Wristwatch Alarm</option>
-                        <option>Elevator Ding</option>
-                        <option>Door Bell</option> -->
                     </select>
                 </div>
             </div>
@@ -70,7 +65,7 @@ document.registerElement("root-app", class extends hyperElement {
             </a>
             <a class="navbar-item" target="_blank"
                 href="https://zenkit.com/collections/FlmmRXn_2/views/fSZLd18WB?rfsn=2890035.bfe37d">
-                22 Features
+                Features
             </a>
             <a class="navbar-item" target="_blank"
                 href="https://zenkit.com/collections/FlmmRXn_2/views/eneQ2s6ON?rfsn=2890035.bfe37d">
@@ -97,7 +92,7 @@ document.registerElement("root-app", class extends hyperElement {
                 Work/Break 25min
             </button>
             <button class="button modal-button open-modal is-medium" data-target="modal-image"
-                onclick="window.open(document.URL+'timer', '_blank', 'location=no,height=200,width=180,scrollbars=no,status=no');">
+                onclick="window.open(document.URL+'timer', '_blank', 'location=no,height=230,width=200,scrollbars=no,status=no');">
                 <svg style="width:24px;height:24px" viewBox="0 0 24 24">
                     <path style="fill:#363636"
                         d="M13.5,8H12V13L16.28,15.54L17,14.33L13.5,12.25V8M13,3A9,9 0 0,0 4,12H1L4.96,16.03L9,12H6A7,7 0 0,1 13,5A7,7 0 0,1 20,12A7,7 0 0,1 13,19C11.07,19 9.32,18.21 8.06,16.94L6.64,18.36C8.27,20 10.5,21 13,21A9,9 0 0,0 22,12A9,9 0 0,0 13,3" />
