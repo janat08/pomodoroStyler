@@ -269,7 +269,7 @@ document.registerElement("root-app", class extends hyperElement {
 
 <footer class="footer">
     <div class="content has-text-centered">
-        <p><a target="_blank" href="privacyPolicy.html">Privacy Policy v1</a></p>
+        <p><a target="_blank" href="static/privacyPolicy.html">Privacy Policy v1</a></p>
         <p><a href="mailto:jey.and.key@gmail.com">jey.and.key@gmail.com</a></p>
         <p><a target="_blank" href="https://fontawesome.com/license">Made with Font Awesome</a></p>
     </div>
