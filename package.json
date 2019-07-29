@@ -8,11 +8,13 @@
     "@babel/plugin-transform-react-jsx": "^7.3.0",
     "@babel/preset-env": "^7.5.5",
     "cssnano": "^4.1.10",
+    "parcel-bundler": "^1.12.3",
     "sass": "^1.22.4",
     "stylus": "^0.54.5"
   },
   "scripts": {
-    "dev": "parcel index.html -p 3000"
+    "dev": "parcel index.html -p 3000",
+    "build": "parcel build index.html"
   },
   "dependencies": {
     "bss": "^1.6.3",
