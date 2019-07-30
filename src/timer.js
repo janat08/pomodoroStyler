@@ -13,7 +13,7 @@ document.registerElement("timer-modal", class extends hyperElement {
 
     render(render, all) {
 
-      render`<div id="modal-image" class=${"modal modal-full-screen "+ (s.timerModal? 'is-active': '')}>
+      render`<div class=${"modal modal-full-screen "+ (s.timerModal? 'is-active': '')}>
                 <div class=" modal-background"></div>
 <div class="modal-content modal-card">
   <header class="modal-card-head" style="padding: 0">
@@ -21,9 +21,9 @@ document.registerElement("timer-modal", class extends hyperElement {
     <button onclick=${go.h} class="modal-button-close is-large delete" aria-label="close"></button>
   </header>
   <section class="modal-card-body" style=${`animation: ${s.animationDuration} linear ${s.animationReflow? "slide"
-    : "slideCopy" }; animation-play-state: ${s.paused? "paused" : "running" }`}>
+    : "slideCopy" }; animation-play-state: ${s.paused? "paused" : "running" }; overflow: hidden;`}>
     <div class="modal-content-colored">
-      <!-- <span class="time-code" style="font-size: 35vmin; ">${s.timeString}</span> -->
+      <span class="time-code" style="font-size: 35vmin; ">${s.timeString}</span>
     </div>
   </section>
   <footer class="modal-card-foot" style="padding: 0">

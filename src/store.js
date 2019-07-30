@@ -45,7 +45,6 @@ const sounds = [alarmwatch, eAlarm, alarmClock, ding, doorbell].map(genP)
 const verId = 121111111111111111
 const now = new Date().getTime()
 const defaultState = {
-
     timerModal: false,
     ver: verId,
     start: now,
@@ -73,23 +72,34 @@ const defaultState = {
         notificationsInteraction: true,
     },
     get breakType() {
-        if (s.s.sessions == s.sessions) {
-            return s.bigBreak
+        if (this.s.sessions == this.sessions) {
+            return this.bigBreak
         }
-        return s.break
+        return this.break
     },
     get names() {
         return this.name + 234
     },
     get animationDuration() {
-        return (s.isWorking ? s.work : s.breakType)+"s"
+        return (this.isWorking ? this.work : this.breakType)+"s"
     },
     // get animationReflow(){
     //     let react = s.sessions && s.isWorking
     //     return (s.start + s.isWorking)%2
     // }
 }
-console.log(Object.keys(defaultState))
+document.style="overflow:hidden"
+document.body.style="overflow:hidden"
+if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
+} else{
+  Object.assign(defaultState, {work: 25*60, break: 5*60, bigBreak: 30*60})
+}
+const hash = Object.keys(defaultState).reduce((a,x)=>{
+    return a + x + defaultState[x]
+}, "") + Object.keys(defaultState.s).reduce((a,x)=>{
+    return a + x + defaultState.s[x]
+}, "")
+// const hash = 
 const s = observable(defaultState)
 window.s = s
 
@@ -239,6 +249,15 @@ autorun(function tick() {
     let inter 
     console.log('starting tick tick')
     inter = setInterval(act.tick, 200)
+})
+
+autorun(function overflow(){
+    const html = document.querySelector("html")
+    if (s.timerModal){
+        html.style.overflow = "hidden"
+    } else {
+        html.style.overflow = "auto"
+    }
 })
 
 let saveNow = new Date().getTime()

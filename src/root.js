@@ -41,9 +41,11 @@ document.registerElement("root-app", class extends hyperElement {
     }// END setup
 
     render(render, all) {
-        render`<nav class="navbar" role="navigation" aria-label="main navigation">
+        render`
+        <div style=${""}>
+        <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-        <a class="navbar-item" href="/">
+        <a class="navbar-item" onclick=${go.h}>
             <img src=${pomodoroPicture} />
         </a>
 
@@ -57,9 +59,6 @@ document.registerElement("root-app", class extends hyperElement {
 
     <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-start">
-            <a class="navbar-item is-active" href="/">
-                Timer
-            </a>
             <a class="navbar-item" target="_blank" href="https://francescocirillo.com/pages/pomodoro-technique">
                 Why/How
             </a>
@@ -224,7 +223,7 @@ document.registerElement("root-app", class extends hyperElement {
                     <div class="field-body">
                         <div class="field">
                             <p class="control is-expanded">
-                                <input oninput=${act.toggle("notifications", 1)} type="checkbox" checked=${s.s.notifications}/> ${Push.Permission.has()?"Browser permits notifications": "Browser is blocking notifications, unblock if requests are blocked, toggle to grant permissions"}
+                                <input oninput=${act.toggle("notifications", 1)} type="checkbox" checked=${s.s.notifications}/> ${Push.Permission.has() ? "Browser permits notifications" : "Browser is blocking notifications, unblock if requests are blocked, toggle to grant permissions"}
                             </p>
                         </div>
                     </div>
@@ -268,6 +267,18 @@ document.registerElement("root-app", class extends hyperElement {
         <p><a href="mailto:jey.and.key@gmail.com">jey.and.key@gmail.com</a></p>
         <p><a target="_blank" href="https://fontawesome.com/license">Made with Font Awesome</a></p>
     </div>
-</footer>`
+</footer>
+    </div>`
     }// END render
 })//END my-profile
+
+document.body.addEventListener('keyup', function (e) {
+    console.log(123123)
+    if (e.key == "Escape") {
+        if (s.timerModal) {
+            go.h()
+        } else {
+            go.t()
+        }
+    }
+});
