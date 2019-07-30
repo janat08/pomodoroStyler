@@ -2,7 +2,7 @@ import { autorun } from 'mobx'
 import hyperElement from 'hyper-element'
 import { act, s, sounds, soundsNames } from "./store"
 import pomodoroPicture from '../Pomodoro-Timer.png'
-import { go } from './index'
+import { go } from './router'
 import Push from 'push.js'
 
 document.registerElement("generate-sound-select", class extends hyperElement {

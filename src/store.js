@@ -42,7 +42,7 @@ function setc(key, val, duration = 1000) {
 const soundsNames = ["Alarm Watch", "80s Alarm", "Alarm Clock", "Ding", "Doorbell"]
 const sounds = [alarmwatch, eAlarm, alarmClock, ding, doorbell].map(genP)
 
-const verId = 12111111111111111
+const verId = 121111111111111111
 const now = new Date().getTime()
 const defaultState = {
 
@@ -89,6 +89,7 @@ const defaultState = {
     //     return (s.start + s.isWorking)%2
     // }
 }
+console.log(Object.keys(defaultState))
 const s = observable(defaultState)
 window.s = s
 
@@ -235,7 +236,9 @@ autorun(function changeTitle() {
 reaction(() => s.sessions && s.isWorking, (data, reaction) => {act.toggle("animationReflow")()})
 
 autorun(function tick() {
-    setInterval(act.tick, 200)
+    let inter 
+    console.log('starting tick tick')
+    inter = setInterval(act.tick, 200)
 })
 
 let saveNow = new Date().getTime()

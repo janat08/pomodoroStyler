@@ -1,7 +1,7 @@
 import { autorun} from 'mobx'
 import hyperElement from 'hyper-element'
 import {act, s} from "./store"
-import {go} from './index'
+import {go} from './router'
 
 
 document.registerElement("timer-modal", class extends hyperElement {
@@ -23,7 +23,7 @@ document.registerElement("timer-modal", class extends hyperElement {
   <section class="modal-card-body" style=${`animation: ${s.animationDuration} linear ${s.animationReflow? "slide"
     : "slideCopy" }; animation-play-state: ${s.paused? "paused" : "running" }`}>
     <div class="modal-content-colored">
-      <span class="time-code" style="font-size: 35vmin; ">${s.timeString}</span>
+      <!-- <span class="time-code" style="font-size: 35vmin; ">${s.timeString}</span> -->
     </div>
   </section>
   <footer class="modal-card-foot" style="padding: 0">
