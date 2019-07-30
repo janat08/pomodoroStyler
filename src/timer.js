@@ -21,7 +21,7 @@ document.registerElement("timer-modal", class extends hyperElement {
     <button onclick=${go.h} class="modal-button-close is-large delete" aria-label="close"></button>
   </header>
   <section class="modal-card-body" style=${`animation: ${s.animationDuration} linear ${s.animationReflow? "slide"
-    : "slideCopy" }; animation-play-state: ${s.paused? "paused" : "running" }; overflow: hidden;`}>
+    : "slideCopy" }; animation-play-state: ${s.paused? "paused" : "running" }; overflow: hidden;height:100%`}>
     <div class="modal-content-colored">
       <span class="time-code" style="font-size: 35vmin; ">${s.timeString}</span>
     </div>
