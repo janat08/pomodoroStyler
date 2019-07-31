@@ -13,11 +13,24 @@ document.registerElement("timer-modal", class extends hyperElement {
 
     render(render, all) {
 
-      render`<div class=${"modal modal-full-screen "+ (s.timerModal? 'is-active': '')}>
-                <div class=" modal-background"></div>
+      render`
+      <div class="negative-max">sdfsdfds</div>
+      
+      
+      <div class=${"modal modal-full-screen "+ (s.timerModal? 'is-active': '')}>
+      <div class="positive-max">
+      <header class="modal-card-head" style="padding: 0">
+    <p class="modal-card-title responsive-padding">${s.sessions}/${s.s.sessionsLen}:${s.isWorking?"Work":"Break"}</p>
+    <button onclick=${go.h} class="modal-button-close is-large delete" aria-label="close"></button>
+  </header>
+      </div>
+
+      <div class="negative-max">
+      <div class=" modal-background"></div>
+
 <div class="modal-content modal-card">
   <header class="modal-card-head" style="padding: 0">
-    <p class="modal-card-title responsive-padding">${s.sessions}/${s.s.sessions}:${s.isWorking?"Work":"Break"}</p>
+    <p class="modal-card-title responsive-padding">${s.sessions}/${s.s.sessionsLen}:${s.isWorking?"Work":"Break"}</p>
     <button onclick=${go.h} class="modal-button-close is-large delete" aria-label="close"></button>
   </header>
   <section class="modal-card-body" style=${`animation: ${s.animationDuration} linear ${s.animationReflow? "slide"
@@ -66,7 +79,6 @@ document.registerElement("timer-modal", class extends hyperElement {
   </footer>
 </div>
 </div>
-<div>
-</div>`
+    </div>`
     }// END render
   })//END my-profile

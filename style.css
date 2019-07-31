@@ -38,6 +38,19 @@
   color: white
 }
 
+/* for very small window */
+@media only screen and (min-height: 100px){
+  .positive-max {
+    display: none
+  }
+}
+
+@media only screen and (max-height: 100px){
+  .negative-max {
+    display: none
+  }
+}
+
 @media only screen and (max-width: 420px) { 
   .positive6 { 
     display: none; 

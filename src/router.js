@@ -13,13 +13,13 @@ const go = {
 
 router
   .on('/timer', function () {
-    s.timerModal = true
+    act.ctimerModal(true)
   })
   .resolve();
 
 router
   .on(function () {
-    s.timerModal = false
+    act.ctimerModal(false)
   })
   .resolve();
 
