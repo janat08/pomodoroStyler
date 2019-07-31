@@ -13,22 +13,31 @@ document.registerElement("timer-modal", class extends hyperElement {
 
     render(render, all) {
 
-      render`
-      <div class="negative-max">sdfsdfds</div>
-      
+      render`      
       
       <div class=${"modal modal-full-screen "+ (s.timerModal? 'is-active': '')}>
-      <div class="positive-max">
-      <header class="modal-card-head" style="padding: 0">
-    <p class="modal-card-title responsive-padding">${s.sessions}/${s.s.sessionsLen}:${s.isWorking?"Work":"Break"}</p>
-    <button onclick=${go.h} class="modal-button-close is-large delete" aria-label="close"></button>
-  </header>
-      </div>
 
-      <div class="negative-max">
+      <div class="modal-content modal-card positive-max">
+  <header class="modal-card-head" style="padding: 0">
+  <p class="modal-card-title responsive-padding">${s.sessions}/${s.s.sessionsLen}:${s.isWorking?"Work":"Break"}</p>
+
+  </header>
+  <section class="modal-card-body" style=${`animation: ${s.animationDuration} linear ${s.animationReflow? "slide"
+    : "slideCopy" }; animation-play-state: ${s.paused? "paused" : "running" }; overflow: hidden;height:100%`}>
+        <div class="modal-content-colored">
+      <span class="time-code" style="font-size: 35vmin; ">${s.timeString}</span>
+    </div>
+  </section>
+  <footer class="modal-card-foot" style="padding: 0">
+  <a onclick=${act.toggleStart} class="positive2 card-footer-item responsive-padding tooltip" data-tooltip="Pause"
+      aria-label="pause">${s.paused?"Start":"Pause"}</a>
+
+  </footer>
+</div>
+
       <div class=" modal-background"></div>
 
-<div class="modal-content modal-card">
+<div class="modal-content modal-card negative-max">
   <header class="modal-card-head" style="padding: 0">
     <p class="modal-card-title responsive-padding">${s.sessions}/${s.s.sessionsLen}:${s.isWorking?"Work":"Break"}</p>
     <button onclick=${go.h} class="modal-button-close is-large delete" aria-label="close"></button>
@@ -77,7 +86,6 @@ document.registerElement("timer-modal", class extends hyperElement {
     </a>
 
   </footer>
-</div>
 </div>
     </div>`
     }// END render
