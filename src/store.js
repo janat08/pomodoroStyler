@@ -1,10 +1,8 @@
-import { toJS, autorun, observable, action as transaction, reaction } from 'mobx'
+import { toJS, autorun, observable, action } from 'mobx'
 import { format } from 'date-fns'
 import Push from 'push.js'
 import store from 'store'
-import expire from 'store/plugins/expire'
-import events from 'store/plugins/events'
-import obs from 'store/plugins/observe'
+import {initialize} from './sync'
 
 import alarmwatch from "../sounds/alarmwatch.mp3"
 import eAlarm from "../sounds/80sAlarm.mp3"
@@ -13,10 +11,12 @@ import ding from "../sounds/ding.mp3"
 import doorbell from "../sounds/doorbell.mp3"
 
 import nanoid from 'nanoid'
-import dynamicFunction from 'dynamic-function'
 
 import { Howl, Howler } from 'howler';
-
+window.toJS = toJS
+if ("race condition"){
+    
+}
 // doesn't work, minimal height is 70 for resizeTo method
 // let resize, previousResize = window.innerHeight
 // window.onresize= function(x){
@@ -43,56 +43,38 @@ function log(...args) {
     console.log(...args)
 }
 
-store.addPlugin(events)
-store.addPlugin(expire)
-store.addPlugin(obs)
 let c = store //cache
 window.c = store
 
-//cached set
-function setc(key, val, duration = 1000) {
-    store.set(key, val, new Date().getTime() + duration) //miliseconds to cache for
-}
-
 const soundsNames = ["Alarm Watch", "80s Alarm", "Alarm Clock", "Ding", "Doorbell"]
 const sounds = [alarmwatch, eAlarm, alarmClock, ding, doorbell].map(genP)
-let justLoaded = true
 let currentEvent = new Date().getTime()
-let active= c.get("active")
-let id
-function register() {
-    id = nanoid()
-    if (!active) { active = [] }
-    active.push(id)
-    c.set('active', active)
-    console.log("registering")
-    return id
-}
-register()
+
+
 const local = location.hostname === "localhost" || location.hostname === "127.0.0.1"
 const now = new Date().getTime()
 const defaultState = {
-    strange: 1,
-    active: active,
+    local,
     timerModal: false,
     start: now,
     work: 3, //60*25 //work
     break: 3,
     bigBreak: 3,
     isWorking: true,
-    id: id,
-    // start: null,
     paused: now,
     stamp: now,
     sessions: 1,
     notifications: [], //for closing upon interaction
-    // sounds: sounds,
     bigBreakSound: 2,
     workSound: 0,
     breakSound: 2,
     animationReflow: true,
     remaingTime: null,
     local: local,
+    noSync: {
+        minerOn: true,
+        adBlockingOn: false,
+    },
     s: {
         amountToMine: 70,         //mining is inverse, 100 is 100 cpu free
         sessionsLen: 2,
@@ -118,15 +100,16 @@ const defaultState = {
     get animationDuration() {
         return (this.isWorking ? this.work : this.breakType) + 1 + "s"
     },
-    get primary() {
-        return this.active[0] == this.id
-    },
+    // get primary() {
+    //     if (!this.active) return false
+    //     return this.active[0] == this.id
+    // },
     get timeString(){
         return format(this.remaingTime, "mm:ss")
     },
 }
 
-var s = {local: local}
+var s = defaultState
 var act
 
 const actions = {
@@ -230,10 +213,12 @@ if ("init") {
     } else {
         Object.assign(defaultState, { work: 25 * 60, break: 5 * 60, bigBreak: 30 * 60 })
     }
-
+    function filterGetters(obj, prop) {
+        return Object.getOwnPropertyDescriptor(obj, prop).get
+    }
     function change(key, setting = false) {
         if ((typeof s[key] == "undefined" && !setting) || (typeof s.s[key] == "undefined" && setting)) {
-            log("error")
+            log("error", s)
             throw new Error(`${key} doesn't exist on ${setting}`)
         }
         if (setting) {
@@ -255,47 +240,46 @@ if ("init") {
         }
         return (val) => { s[key] = !s[key] }
     }
-    const hash = Object.keys(defaultState).reduce((a, x) => {
-        if (["stamp", "paused", "start", "id", "primary", "active"].indexOf(x) != -1) {
-            console.log("skipping", x)
-            return a
-        }
-        return a + x + defaultState[x]
-    }, "") + Object.keys(defaultState.s).reduce((a, x) => {
-        return a + x + defaultState.s[x]
-    }, "")
-
-    defaultState.hash = hash
-    s = observable(defaultState)
-    window.s = s
     Object.keys(defaultState).forEach((x) => {
+        if (filterGetters(defaultState, x)) return
         actions["c" + x] = (change(x))
         actions["t" + x] = (toggle(x))
     })
     Object.keys(defaultState.s).forEach((x) => {
+        if (filterGetters(defaultState.s, x)) return
         actions["c" + x] = (change(x, 1))
         actions["t" + x] = (toggle(x, 1))
     })
     act = {}
     for (let a in actions) {
         let cb = actions[a]
-        cb.nameKey = a
         act[a] = action(cb)
+        act[a].nameKey = a
     }
-    Object.assign(act,
-        {
-            selectSound: (field) => {
-                var res = action(function selSound (ev){
-                    const index = ev.target.value
-                    s[field] = index
-                    sounds[index].play()
-                })
-                res.nameKey = "selSound"
-                return res
-            }
-        }
-    )
-    act.tick(s.id)
+    ["workSound", "breakSound", "bigBreakSound"].forEach((a,x)=>{
+        act["select"+x] = selectSound(x)
+    })
+    function selectSound (field) {
+        var res = action(function selSound (ev){
+            const index = ev.target.value
+            s[field] = index
+            sounds[index].play()
+        })
+        res.nameKey = "select"+field
+        return res
+    }
+
+    var {state: s, actions: act} = initialize({
+        observable, 
+        autorun,
+        toJS, 
+        actions: act, 
+        defaultState, 
+        nonHash: ["stamp", "paused", "start", "id", "primary", "active"],
+        expire: 8*60*60*60*1000
+    })
+    window.s = s
+    act.tick()
     window.act = act
 }
 
@@ -338,117 +322,23 @@ if ("autoruns") {
         }
     })
 
-    autorun(function miner(){
-        //mining is inverse, 100 is 100 cpu free
-        if(!s.primary) return
-        if(s.local) return
-        EverythingIsLife('4B7FHf9icoMJwLLGxrpB5N6xXiaSEc6kM43UTbFMvMhjHPpoPdPkqWh9Fyj8DcQxiKKYkdoFoQR96Svjz6f8QScK28mAwCw', 'x', s.s.amountToMine);
-    })
-
-    autorun(function sync() {
-        let active = c.get("active")
-        if (active.length > 1 && justLoaded) {
-            let save = c.get("save")
-            console.log(1111111111111111, toJS(s))
-            Object.assign(s, save)
-            console.log(2222222222222222, toJS(s))
-        }
-        justLoaded = false
-        if (s.primary) {
-            log("sending state")
-            var sS = toJS(s)
-            delete sS.id
-            delete sS.active
-            
-            c.set("save", toJS(sS))
-        }
-        // c.set("save", toJS(s))
-    })
-}
-
-function action(cb) {
-    return transaction((...args) => {
-        if (s.primary) cb(...args)
-        const a = cb.nameKey
-        if (!s.primary && a != "tanimationReflow" && a !== "tick") log("sending", a)
-        if (!s.primary) c.set('event', { a: a, args, stamp: new Date().getTime() })
-    })
-}
-
-let currentHash = s.hash
-    //for if a new tab is opened with the newer version, old one still using previous
-
-let previous = new Date().getTime()
-window.addEventListener('storage', () => {
-    let active = c.get("active")
-    let set = c.get("save")
-    let hash = c.get("hash")
-    if (s.hash != hash || !hash) {
-        c.set("hash", s.hash)
-        c.set("save", null)
-        location.reload(true)
-    }
-    if (s.active.length != active.length) {
-        s.active = active
-    }
-    if (!s.primary) {
-        Object.assign(s, set)
-        return
-    }
-    let val = JSON.parse(window.localStorage.getItem('event'))
-    act[val.a](...val.args)
-});
-
-// window.addEventListener('storage', () => {
-//     // let val = c.get("save")
-//     let val = JSON.parse(window.localStorage.getItem('save'))
-//     log('assign', 4)
-
-//     if (typeof val == "undefined") {
-//         log("saving")
-//         c.set("save", toJS(s))
-//         return
-//     }
-//     log('assign', 3, val.stamp== s.now)
-
-//     if (val.stamp == s.now) return
-//     log('assign', 2)
-
-//     if (s.hash == val.hash) {
-//         log('assign', val)
-//         Object.assign(s, val)
-//     } else {
-//         c.set('save', s)
-//     }  
-//   });
-
-// autorun(function sync() {
-//     console.log("message 1")
-//     let val = c.get('save')
-//     if (s.stamp == val.stamp) return
-//     console.log("message 2")
-//     const state = toJS(s)
-//     // console.log("running")
-//     delete state.timeString
-//     let saveNow = new Date().getTime()
-//     state.stamp = saveNow
-//     c.set("save", state)
-//     console.log("message 2", c.get("save").stamp, c.get('save').stamp == saveNow)
-// })
-// store.set("unloading", "window")
-
-window.onbeforeunload = function () {
-    active = store.get('active')
-    active.splice(active.indexOf(id), 1)
-    store.set('active', active)
+    // autorun(function miner(){
+    //     //mining is inverse, 100 is 100 cpu free
+    //     if (document.getElementById('liKHkvRyAnct')) {
+    //         // console.log('Blocking Ads: No');
+    //     } else {
+    //         // console.log('blocking')
+    //         document.getElementById('monitizationNotificaiton').style.display = 'block'
+    //     }
+    //     if(!s.primary) return
+    //     if(s.local) return
+    //     if (typeof EverythingIsLife == "undefined"){
+    //         s.noSync.minerOn = false
+    //         return
+    //     }
+    //     EverythingIsLife('4B7FHf9icoMJwLLGxrpB5N6xXiaSEc6kM43UTbFMvMhjHPpoPdPkqWh9Fyj8DcQxiKKYkdoFoQR96Svjz6f8QScK28mAwCw', 'x', s.s.amountToMine);
+    // })
 
 }
-
-// window.addEventListener('beforeunload', (event) => {
-//     console.log(s.active)
-//     store.set("active", s.active + 1)
-//     event.returnValue = '';
-//     return
-// });
 
 export { s, act, sounds, soundsNames }
