@@ -32,7 +32,7 @@ store.addPlugin(observe)
 store.addPlugin(operations)
 
 const log = console.log
-// const c = store
+// const c = stor
 let s
 const original = store.get
 
@@ -42,34 +42,66 @@ probably using promises
 listen for separate unique name (like field+"very unique modifier") if item is about to be edited with event listeners/observe
 and maybe start a que to edit that field
 */
-// let c= {}
-// function curry(field){
-//     return (args)=>{
-//         return store[field].apply(store, args)
-//     }
-// }
+let c = {}
+function curry(field) {
+    return (...args) => {
+        return store[field].apply(store, args)
+    }
+}
+const get = curry("get")
+const set = curry("set")
+const each = curry("each")
 
-// window.addEventListener('storage', () => {
+window.addEventListener('storage', () => {
 
-// });
-// c.get = function(...args){
-//     c.set(args[0], )
-//     return get(args)
-// }
-// c.set = function(...args){
-//     set(args)
-// }
-function initialize({ observable, autorun, toJS, actions, defaultState, nonHash = [], nonOverwrite = [], nonExpire = [], expire, noSync = [], timeout = 100 }) {
+});
+const overlap = {
+    get: function (...args) {
+        // c.set(args[0])
+        return get(...args)
+    },
+    set: function (...args) {
+        set(...args)
+    }
+}
+c.get = function (args) {
+    // c.set(args[0])
+    return get(args)
+}
+c.set = function (args) {
+    set(args)
+}
+c.each = store.each
+function setRemoveActiveId(timeout) {
+    return (value, key) => {
+        if (key && value && key.indexOf('timeForSync') != -1) {
+            const id = key.slice(0, -11)
+            const active = c.get("active").filter(x => x != id)
+            const diff = new Date().getTime() - value
+            console.log(diff, timeout, key)
+            if (diff > timeout) {
+                console.log("removing", key)
+                c.remove(key)
+                console.log("actives", active)
+                c.set('active', active)
+            }
+        }
+    }
+}
+let removeActiveId
+function initialize({ observable, autorun, toJS, actions, defaultState, nonHash = [], nonOverwrite = [], nonExpire = [], expire, noSync = [], timeout = 1000 }) {
+    removeActiveId = setRemoveActiveId(timeout)
     const hash = makeHash(defaultState, nonHash)
     const nonOW = nonOverwriting(nonOverwrite, defaultState) //to not overwrite values when moving to new hash
     const { id, active, primary } = registerId(timeout)
     let s = observable(nonOW)
-    s = setNewHashSave(hash, s, toJS) //to force other tabs to update if they have old keys/values/state, updates with oldest save
-    Object.assign(s, { id }, { active }, { primary })
+    // setNewHashSave(hash, s, toJS) //to force other tabs to update if they have old keys/values/state, updates with oldest save
+    Object.assign(s, { id }, { active }, { primary }, setNewHashSave(hash, s, toJS))
     const acts = actionsParse(actions, s)
-    listenStorage(s, acts, hash)
+    listenStorage(s, acts, hash, timeout)
     beginPublishingState(s, toJS, autorun, noSync.concat(["id", "active", "primary"]))
     removeActiveOnLeave(id, s)
+    console.log('primary', s.primary, s.id, toJS(s.active))
     return { state: s, actions: acts }
 }
 
@@ -86,14 +118,14 @@ function nonOverwriting(keys, state) {
 }
 
 function beginPublishingState(s, toJS, autorun, noSync) {
-    autorun(function sync() {
-        let active = c.get("active")
+    autorun(function sync(...args) {
         if (s.primary) {
-            log("sending state")
+            log("sending state", ...args)
             var sS = toJS(s)
             noSync.forEach(x => {
                 delete sS[x]
             })
+            // sS.lastUpdate = new Date().getTime()
             c.set("save", toJS(sS))
         }
         // c.set("save", toJS(s))
@@ -101,45 +133,26 @@ function beginPublishingState(s, toJS, autorun, noSync) {
 }
 
 function registerId(timeout) {
-
-    const save = c.get('save')
-    let id = nanoid()
+    const id = nanoid()
     let active = store.get("active")
     //registering
     if (!active) { active = [] }
     active.push(id)
     c.set('active', active)
-    var primary = active.length == 1
-    console.log(active)
+    var primary = active[0] == id
 
-
-    // let index = val.length - 1
-    // let last = val[index]
-    // if (last.stamp == "complete") return
-    // last.stamp = "complete"
-    // c.set("event", val)
+    //clear crashed ids
+    // c.each(removeActiveId)
 
     setInterval(() => {
-        const active = c.get('active')
-        const ind = active.map(x => x.id).indexOf(id)
-        const filtered = active[ind]
-        if (filtered.stamp == "complete") {
-            c.set(c.get('events').splice(ind, 1))
-        } else {
-            s.primary = true
-            const active = c.get("active")
-            const ind = active.indexOf(s.id)
-            active.splice(ind, 1).unshift(s.id)
-            c.set("active", active)
-        }
-    }, timeout)
+        c.set(id + "timeForSync", new Date().getTime())
+    }, (timeout / 2))
     return { id, active, primary }
 }
 
 function makeHash(defaultState, nonHash) {
     const hash = Object.keys(defaultState).reduce((a, x) => {
         if (nonHash.indexOf(x) != -1) {
-            console.log("skipping", x)
             return a
         }
         return a + x + JSON.stringify(defaultState[x])
@@ -167,7 +180,7 @@ function setNewHashSave(currentHash, newSave, toJS) {
     return newSave
 }
 
-function actionsParse(cbs, s, timeout) {
+function actionsParse(cbs, s) {
     let result = {}
     for (let a in cbs) {
         let cb = cbs[a]
@@ -179,8 +192,9 @@ function actionsParse(cbs, s, timeout) {
             if (s.primary) {
                 cb(...args)
             } else {
-                if (!s.primary && a != "tanimationReflow" && a !== "tick") console.log("sending", a)
                 const a = cb.nameKey
+                if (!s.primary && a != "tanimationReflow" && a !== "tick") console.log("sending", a)
+
                 const eventId = nanoid()
                 c.set('event', { a: a, args, id: eventId })
             }
@@ -189,29 +203,52 @@ function actionsParse(cbs, s, timeout) {
     return result
 }
 
-
-function listenStorage(s, act, currentHash) {
-    window.addEventListener('storage', () => {
-        let hash = c.get("hash")
-        if (currentHash != hash || !hash) {
-            location.reload(true)
+let lastId
+let clearedAgan = false
+function listenStorage(s, act, currentHash, timeout) {
+    const timeouts = {}
+    window.addEventListener('storage', (event) => {
+        if (!clearedAgan) {
+            // c.each(removeActiveId)
+            clearedAgan = true
         }
-        let active = c.get("active")
-        let set = c.get("save")
-        if (s.active.length != active.length) {
-            s.active = active
+        const key = event.key
+        const val = event.newValue
+        let primary = s.primary
+        if (event.key.indexOf("timeForSync") != -1) {
+            clearTimeout(timeouts[key])
+            timeouts[key] = setTimeout(removeActiveId, timeout * 2)
+            return
         }
-        if (s.active[0] == s.id) {
-            s.primary = true
+        switch (key) {
+            case 'hash':
+                if (currentHash != val) {
+                    location.reload(true)
+                }
+                break;
+            case 'active':
+                if (s.active.length != val.length) {
+                    s.active = val
+                }
+                if (s.active[0] == s.id) {
+                    s.primary = true
+                } else {
+                    s.primary = false
+                }
+                break;
+            case 'event':
+                if (val && primary) {
+                    console.log("event", val)
+                    act[val.a](...val.args)
+                }
+                break;
+            case 'save':
+                if (!primary) {
+                    console.log("save")
+                    Object.assign(s, val)
+                }
+                break;
         }
-        let val = c.get('event')
-        if (!s.primary) {
-            Object.assign(s, set)
-        } else {
-            console.log(val)
-            act[val.a](...val.args)
-        }
-
     });
 }
 
@@ -221,19 +258,6 @@ function setc(key, val, duration = 1000) {
 }
 
 function removeActiveOnLeave(id, s) {
-    // window.setInterval(()=>{
-    //     if(s.primary){
-
-    //     } else {
-    //         const order = s.active.indexOf(s.id)
-    //         if (order == -1){
-    //             //reregister
-    //         }
-    //         const previous = order-1
-    //         c.set(s.active[previous], false)
-    //     }
-    //     c.set("activePoll")
-    // })
     window.addEventListener('beforeunload', (event) => {
 
         let active = store.get('active')

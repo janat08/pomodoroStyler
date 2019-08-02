@@ -268,17 +268,19 @@ if ("init") {
         res.nameKey = "select"+field
         return res
     }
+    var s = observable(defaultState)
+    
 
-    var {state: s, actions: act} = initialize({
-        observable, 
-        autorun,
-        toJS, 
-        actions: act, 
-        defaultState, 
-        noSync: ["noSync",],
-        nonHash: ["stamp", "paused", "start", "id", "primary", "active"],
-        expire: 8*60*60*60*1000
-    })
+    // var {state: s, actions: act} = initialize({
+    //     observable, 
+    //     autorun,
+    //     toJS, 
+    //     actions: act, 
+    //     defaultState, 
+    //     noSync: ["noSync",],
+    //     nonHash: ["stamp", "paused", "start", "id", "primary", "active"],
+    //     expire: 8*60*60*60*1000
+    // })
     window.s = s
     act.tick()
     window.act = act
