@@ -3,20 +3,14 @@ import { format } from 'date-fns'
 import Push from 'push.js'
 import store from 'store'
 import {initialize} from './sync'
-
+import m from 'mithril'
 import alarmwatch from "../sounds/alarmwatch.mp3"
 import eAlarm from "../sounds/80sAlarm.mp3"
 import alarmClock from "../sounds/alarmclock.mp3"
 import ding from "../sounds/ding.mp3"
 import doorbell from "../sounds/doorbell.mp3"
-
-import nanoid from 'nanoid'
-
 import { Howl, Howler } from 'howler';
 window.toJS = toJS
-if ("race condition"){
-    
-}
 // doesn't work, minimal height is 70 for resizeTo method
 // let resize, previousResize = window.innerHeight
 // window.onresize= function(x){
@@ -63,6 +57,7 @@ const defaultState = {
     paused: now,
     stamp: now,
     sessions: 1,
+    sessionsDaily: 0,
     notifications: [], //for closing upon interaction
     bigBreakSound: 2,
     workSound: 0,
@@ -131,6 +126,7 @@ const actions = {
             }
             if (s.isWorking) {
                 s.sessions += 1
+                s.sessionsDaily += 1
             }
             if (s.sessions > s.s.sessionsLen) {
                 s.sessions = 1
@@ -233,12 +229,22 @@ if ("init") {
         }
         const type = typeof s[key]
         return (val) => {
-            console.log(key)
             const v = val && val.target && val.target.value? val.target.value : val
-            if(typeof v != type) {
+            const t = typeof v
+            if(t == "boolean" || typeof (v*1) == type) {
+                console.log(typeof v*1 == type, t == "boolean", t)
+                s[key] = v
+            } else {
                 val.target.value = s[key]
             }
-            s[key] = v
+            console.log(key, typeof v, v, s[key])
+            // console.log(key)
+            // const v = val && val.target && val.target.value? val.target.value : val
+            // if(typeof v != type) {
+            //     val.target.value = s[key]
+            // }
+            // s[key] = v
+            // console.log(s[key])
         }
     }
 
@@ -339,7 +345,6 @@ if ("autoruns") {
             html.style.overflow = "auto"
         }
     })
-
     // autorun(function miner(){
     //     //mining is inverse, 100 is 100 cpu free
     //     if (document.getElementById('liKHkvRyAnct')) {

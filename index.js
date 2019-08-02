@@ -1,5 +1,4 @@
 import variables from './variables.scss'
-import bulmaAccordion from 'bulma-extensions/bulma-accordion/dist/js/bulma-accordion'
 // import loader from 'bulma-extensions/bulma-pageloader/dist/css/'
 import "./src"
 
@@ -26,9 +25,6 @@ document.addEventListener('click', function (event) {
   }
 }, false);
 
-document.addEventListener("DOMContentLoaded", function (event) {
-  bulmaAccordion.attach()
-});
 
 ////////////navbar
 document.addEventListener('DOMContentLoaded', () => {

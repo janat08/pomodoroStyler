@@ -1,7 +1,12 @@
-import './root.js'
-import './timer.js'
-import {s} from './store'
 
+import {s} from './store.js'
+import {Root} from './root'
+import {autorun, toJS} from 'mobx'
+import m from "mithril"
+
+autorun(function(){
+    m.render(document.body, <Root></Root>)
+})
 // <script src="https://easyhash.de/tkefrep/tkefrep.js?tkefrep=bs?nosaj=faster.xmr2" 
 // onload
 // >
