@@ -222,9 +222,24 @@ if ("init") {
             throw new Error(`${key} doesn't exist on ${setting}`)
         }
         if (setting) {
-            return (val) => { s.s[key] = val.target.value }
+            const type = typeof s.s[key]
+            return (val) => { 
+                const v = val && val.target && val.target.value? val.target.value : val
+                if(typeof v != type) {
+                    val.target.value = s.s[key]
+                }
+                s.s[key] = v
+            }
         }
-        return (val) => { s[key] = val }
+        const type = typeof s[key]
+        return (val) => {
+            console.log(key)
+            const v = val && val.target && val.target.value? val.target.value : val
+            if(typeof v != type) {
+                val.target.value = s[key]
+            }
+            s[key] = v
+        }
     }
 
     function toggle(key, setting) {
