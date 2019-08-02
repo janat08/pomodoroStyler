@@ -55,7 +55,6 @@ const local = location.hostname === "localhost" || location.hostname === "127.0.
 const now = new Date().getTime()
 const defaultState = {
     local,
-    timerModal: false,
     start: now,
     work: 3, //60*25 //work
     break: 3,
@@ -71,6 +70,7 @@ const defaultState = {
     animationReflow: true,
     remaingTime: null,
     local: local,
+    timerModal: false,
     noSync: {
         minerOn: true,
         adBlockingOn: false,
@@ -275,6 +275,7 @@ if ("init") {
         toJS, 
         actions: act, 
         defaultState, 
+        noSync: ["noSync",],
         nonHash: ["stamp", "paused", "start", "id", "primary", "active"],
         expire: 8*60*60*60*1000
     })

@@ -59,39 +59,39 @@ and maybe start a que to edit that field
 // c.set = function(...args){
 //     set(args)
 // }
-function initialize ({observable, autorun, toJS, actions, defaultState, nonHash=[], nonOverwrite=[], nonExpire=[], expire, noSync=[], timeout = 100}){
+function initialize({ observable, autorun, toJS, actions, defaultState, nonHash = [], nonOverwrite = [], nonExpire = [], expire, noSync = [], timeout = 100 }) {
     const hash = makeHash(defaultState, nonHash)
     const nonOW = nonOverwriting(nonOverwrite, defaultState) //to not overwrite values when moving to new hash
-    const {id, active, primary} = registerId()
+    const { id, active, primary } = registerId(timeout)
     let s = observable(nonOW)
     s = setNewHashSave(hash, s, toJS) //to force other tabs to update if they have old keys/values/state, updates with oldest save
-    Object.assign(s, {id}, {active}, {primary})
-    const acts = actionsParse(actions, s, timeout)
+    Object.assign(s, { id }, { active }, { primary })
+    const acts = actionsParse(actions, s)
     listenStorage(s, acts, hash)
     beginPublishingState(s, toJS, autorun, noSync.concat(["id", "active", "primary"]))
     removeActiveOnLeave(id, s)
-    return {state: s, actions: acts}
+    return { state: s, actions: acts }
 }
 
-function nonOverwriting (keys, state){
+function nonOverwriting(keys, state) {
     const original = c.get("save")
     if (!original) return state
-    Object.keys(state).forEach((x,i)=>{
+    Object.keys(state).forEach((x, i) => {
         const val = original[x]
-        if (keys.indexOf(x) != -1){
+        if (keys.indexOf(x) != -1) {
             Object.assign(state[x], original[x])
         }
     })
     return state
 }
 
-function beginPublishingState(s, toJS, autorun, noSync){
+function beginPublishingState(s, toJS, autorun, noSync) {
     autorun(function sync() {
         let active = c.get("active")
         if (s.primary) {
             log("sending state")
             var sS = toJS(s)
-            noSync.forEach(x=>{
+            noSync.forEach(x => {
                 delete sS[x]
             })
             c.set("save", toJS(sS))
@@ -100,7 +100,8 @@ function beginPublishingState(s, toJS, autorun, noSync){
     })
 }
 
-function registerId() {
+function registerId(timeout) {
+
     const save = c.get('save')
     let id = nanoid()
     let active = store.get("active")
@@ -110,10 +111,32 @@ function registerId() {
     c.set('active', active)
     var primary = active.length == 1
     console.log(active)
-    return {id, active, primary}
+
+
+    // let index = val.length - 1
+    // let last = val[index]
+    // if (last.stamp == "complete") return
+    // last.stamp = "complete"
+    // c.set("event", val)
+
+    setInterval(() => {
+        const active = c.get('active')
+        const ind = active.map(x => x.id).indexOf(id)
+        const filtered = active[ind]
+        if (filtered.stamp == "complete") {
+            c.set(c.get('events').splice(ind, 1))
+        } else {
+            s.primary = true
+            const active = c.get("active")
+            const ind = active.indexOf(s.id)
+            active.splice(ind, 1).unshift(s.id)
+            c.set("active", active)
+        }
+    }, timeout)
+    return { id, active, primary }
 }
 
-function makeHash(defaultState, nonHash){
+function makeHash(defaultState, nonHash) {
     const hash = Object.keys(defaultState).reduce((a, x) => {
         if (nonHash.indexOf(x) != -1) {
             console.log("skipping", x)
@@ -124,7 +147,7 @@ function makeHash(defaultState, nonHash){
     return hash
 }
 
-function setNewHashSave(currentHash, newSave, toJS){
+function setNewHashSave(currentHash, newSave, toJS) {
     let active = store.get("active")
     const hash = c.get("hash")
     const save = c.get("save")
@@ -138,7 +161,7 @@ function setNewHashSave(currentHash, newSave, toJS){
     const alone = active.length > 1
     if (alone && save) {
         Object.assign(newSave, save)
-    } else if (alone && !save){
+    } else if (alone && !save) {
         c.set('save', nonGetter)
     }
     return newSave
@@ -151,32 +174,15 @@ function actionsParse(cbs, s, timeout) {
         cb.nameKey = a
         result[a] = handler(cb)
     }
-    function handler (cb) {
-        return function (...args){
+    function handler(cb) {
+        return function (...args) {
             if (s.primary) {
-                if (last.stamp == "complete") return
-                last.stamp = "complete"
-                c.set("event", val)
                 cb(...args)
             } else {
                 if (!s.primary && a != "tanimationReflow" && a !== "tick") console.log("sending", a)
                 const a = cb.nameKey
                 const eventId = nanoid()
-                c.push('event', { a: a, args, id: eventId, complete: false })
-                setTimeout(()=>{
-                    const events = c.get('event')
-                    const ind = events.map(x=>x.id).indexOf(eventId)
-                    const filtered = events[ind]
-                    if (filtered.stamp == "complete"){
-                        c.set(c.get('events').splice(ind, 1))
-                    } else {
-                        s.primary = true
-                        const active = c.get("active")
-                        const ind = active.indexOf(s.id)
-                        active.splice(ind, 1).unshift(s.id)
-                        c.set("active", active)
-                    }
-                }, timeout)
+                c.set('event', { a: a, args, id: eventId })
             }
         }
     }
@@ -184,7 +190,7 @@ function actionsParse(cbs, s, timeout) {
 }
 
 
-function listenStorage(s, act, currentHash){
+function listenStorage(s, act, currentHash) {
     window.addEventListener('storage', () => {
         let hash = c.get("hash")
         if (currentHash != hash || !hash) {
@@ -195,17 +201,15 @@ function listenStorage(s, act, currentHash){
         if (s.active.length != active.length) {
             s.active = active
         }
-        if (s.active[0] == s.id){
+        if (s.active[0] == s.id) {
             s.primary = true
         }
         let val = c.get('event')
-        let index = val.length-1
-        let last = val[index]
-        console.log("checking if get works", val)
-        if (!s.primary && val.stamp == "complete") {
+        if (!s.primary) {
             Object.assign(s, set)
         } else {
-            act[last.a](...last.args)
+            console.log(val)
+            act[val.a](...val.args)
         }
 
     });
@@ -216,7 +220,7 @@ function setc(key, val, duration = 1000) {
     store.set(key, val, new Date().getTime() + duration) //miliseconds to cache for
 }
 
-function removeActiveOnLeave(id, s){
+function removeActiveOnLeave(id, s) {
     // window.setInterval(()=>{
     //     if(s.primary){
 
@@ -231,11 +235,11 @@ function removeActiveOnLeave(id, s){
     //     c.set("activePoll")
     // })
     window.addEventListener('beforeunload', (event) => {
-        
+
         let active = store.get('active')
         active.splice(active.indexOf(id), 1)
         store.set('active', active)
         return
     });
 }
-export {initialize}
+export { initialize }

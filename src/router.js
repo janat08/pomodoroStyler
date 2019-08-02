@@ -11,16 +11,31 @@ const go = {
   t: () => router.navigate('/timer')
 }
 
-router
-  .on('/timer', function () {
-    act.ctimerModal(true)
-  })
-  .resolve();
+if (s.local) {
+  router
+    .on('/timer', function () {
+      act.ctimerModal(true)
+    })
+    .resolve();
 
-router
-  .on(function () {
-    act.ctimerModal(false)
-  })
-  .resolve();
+  router
+    .on(function () {
+      act.ctimerModal(false)
+    })
+    .resolve();
+} else {
+  router
+    .on('/timer', function () {
+      act.timerModal = true
+    })
+    .resolve();
 
-export {go}
+  router
+    .on(function () {
+      act.timerModal = false
+    })
+    .resolve();
+}
+
+
+export { go }
