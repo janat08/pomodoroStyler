@@ -250,7 +250,7 @@ function Root() {
                     <div class="content has-text-centered">
                         <a target="_blank" href="static/privacyPolicy.html">Privacy Policy v1</a> -
          <a href="mailto:jey.and.key@gmail.com">jey.and.key@gmail.com</a> -
-         <a target="_blank" href="https://fontawesome.com/license">Made with Font Awesome</a> -
+         <a target="_blank" rel="noopener" href="https://fontawesome.com/license">Made with Font Awesome</a> -
      </div>
                 </footer>
             </div>

@@ -1,13 +1,11 @@
+<!DOCTYPE html>
 <html>
-
 <head>
-    <!-- UIkit CSS -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="twitter:dnt" content="on">
-    <!-- modal -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css"
+    <link rel="stylesheet" async href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css"
         integrity="sha256-vK3UTo/8wHbaUn+dTQD0X6dzidqc5l7gczvH+Bnowwk=" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://unpkg.com/bulma-modal-fx@1.1.1/dist/css/modal-fx.min.css" />
+    <link rel="stylesheet" async href="https://unpkg.com/bulma-modal-fx@1.1.1/dist/css/modal-fx.min.css" />
     <title>Pomodoro Timer</title>
     <meta name="description" content="
         Ad free and fully private pomodoro timer and tracker. Supports timer display in full screen and tiny window- fully responsive- while synchronizing across tabs and sessions.
@@ -22,7 +20,7 @@
                 Sentry.init({ dsn: 'https://d5b60f145a4a4b7390e06aca0a202da9@sentry.io/135728' })
             };
             script.src = "https://browser.sentry-cdn.com/5.5.0/bundle.min.js";
-            script.integrity = "sha384-/kLYKYxlMDI1l+lhDHECQrq1Z4fnk/A32MWVF6rRnuE2WiOuAmg3wr3McNOG3Szi"
+            // script.integrity = "sha384-/kLYKYxlMDI1l+lhDHECQrq1Z4fnk/A32MWVF6rRnuE2WiOuAmg3wr3McNOG3Szi"
             script.crossorigin = "anonymous"
             document.getElementsByTagName("head")[0].appendChild(script);
         }
@@ -33,7 +31,7 @@
     <nav class="navbar" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
             <a class="navbar-item">
-                <img src="static/Pomodoro-Timer.png" />
+                <img src="static/Pomodoro-Timer.png" alt='Pomodoro technique logo, tomato with time marks on it'/>
             </a>
 
             <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
@@ -46,25 +44,21 @@
 
         <div id="navbarBasicExample" class="navbar-menu">
             <div class="navbar-start">
-                <a class="navbar-item" target="_blank" href="https://francescocirillo.com/pages/pomodoro-technique">
+                <a class="navbar-item" rel="noopener" target="_blank" href="https://francescocirillo.com/pages/pomodoro-technique">
                     Why/How
                 </a>
-                <a class="navbar-item" target="_blank"
+                <a class="navbar-item" rel="noopener" target="_blank"
                     href="https://zenkit.com/collections/FlmmRXn_2/views/fSZLd18WB?rfsn=2890035.bfe37d">
                     Features
                 </a>
-                <a class="navbar-item" target="_blank"
+                <a class="navbar-item" rel="noopener" target="_blank"
                     href="https://zenkit.com/collections/FlmmRXn_2/views/eneQ2s6ON?rfsn=2890035.bfe37d">
                     Roadmap
                 </a>
             </div>
             <div class="navbar-end">
-                    <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="navbar-item"
-                    data-dnt="true"
-                    data-text="Work some, but then play a little following #pomodoro technique with pomodoro.work app" data-show-count="false">
-                        <svg style="height: 20px" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="twitter" class="svg-inline--fa fa-twitter fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path></svg>
-                        Tweet
-                    </a>
+                <div class='navbar-item'>
+                        <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="Work some, but then play a little following #pomodoro technique with pomodoro.work app" data-dnt="true" data-show-count="false">Tweet</a></div>
             </div>
         </div>
     </nav>

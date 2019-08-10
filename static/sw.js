@@ -20,21 +20,21 @@ self.addEventListener('activate', event => {
 });
 
 
-// self.addEventListener('fetch', function(event) {
-//   // if (new URL(event.request.url).hostname == "localhost"){
-//   //   console.log('quiting')
-//   //   return
-//   // }
-//     event.respondWith(
-//       caches.open('mysite-dynamic').then(function(cache) {
-//         return cache.match(event.request).then(function(response) {
-//           var fetchPromise = fetch(event.request).then(function(networkResponse) {
-//             cache.put(event.request, networkResponse.clone());
-//             return networkResponse;
-//           })
-//           return response || fetchPromise;
-//         })
-//       })
-//     );
-//   });
+self.addEventListener('fetch', function(event) {
+  // if (new URL(event.request.url).hostname == "localhost"){
+  //   console.log('quiting')
+  //   return
+  // }
+    event.respondWith(
+      caches.open(CACHE_NAME).then(function(cache) {
+        return cache.match(event.request).then(function(response) {
+          var fetchPromise = fetch(event.request).then(function(networkResponse) {
+            cache.put(event.request, networkResponse.clone());
+            return networkResponse;
+          })
+          return response || fetchPromise;
+        })
+      })
+    );
+  });
   
