@@ -13,7 +13,6 @@
         Ad free and fully private pomodoro timer and tracker. Supports timer display in full screen and tiny window- fully responsive- while synchronizing across tabs and sessions.
     ">
     <link rel="shortcut icon" type="image/x-icon" href="static/Pomodoro-Timer.png">
-    <script src="https://cdn.jsdelivr.net/npm/webcomponentsjs@latest/lite.min.js"></script>
     <script>
     //Sentry init
     if (location.hostname === "localhost" || location.hostname === "127.0.0.1") { } else {
@@ -69,17 +68,13 @@
             </div>
         </div>
     </nav>
-    <!-- <div id="root"></div> -->
-    <!-- <root-app>
-        <div class="pageloader is-active"><span class="title">
-                <p style="text-align: center">loading right until before you quit on me.</p>if nothing appears update
-                your browser, or switch to modern one. contact: jey.and.key@gmail.com
-            </span></div>if nothing appears update your browser, or switch to modern one. contact: jey.and.key@gmail.com
-    </root-app> -->
-
+    <div id="root"></div>
+    <div class="pageloader is-active"><span class="title">
+        <p style="text-align: center">loading right until before you quit on me.</p>
+    </span></div>
+    <script src="./static/ads.js"></script>
     <script src="./index.js"></script>
     <script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script>
-    <!-- should be at bottom -->
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </body>
 

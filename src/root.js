@@ -9,7 +9,7 @@ import bulmaAccordion from 'bulma-extensions/bulma-accordion/dist/js/bulma-accor
 
 
 function openWin(height, width) {
-    return () => window.open(document.URL + 'timer', '_blank', 'resizable=true,left=1,top=1,alwaysOnTop=yes,titlebar=no,location=no,height=' + height + ',width=' + width + ',personalbar=no,scrollbars=no,status=no,menubar=no');
+    return () => window.open(document.URL.replace('timer', '') + 'timer', '_blank', 'resizable=true,left=1,top=1,alwaysOnTop=yes,titlebar=no,location=no,height=' + height + ',width=' + width + ',personalbar=no,scrollbars=no,status=no,menubar=no');
 }
 
 function GenerateSoundSelect() {
@@ -25,7 +25,7 @@ function GenerateSoundSelect() {
                     <div class="field">
                         <div class="control">
                             <div class="select">
-                                <select oninput={act["select" + field]}>
+                                <select onchange={act["select" + field]}>
                                     {options.map((sound, i) => (
                                         <option key={sound} value={i} selected={s[field] == i ? true : false} > {soundsNames[i]}</option >
                                     ))}
@@ -46,6 +46,9 @@ function Root() {
     return {
         oncreate: () => {
             bulmaAccordion.attach()
+            const loader = document.getElementsByClassName('pageloader')[0]
+            loader.classList.remove("is-active");
+            loader.style.display = "none"
         },
         view: () => (
             <div>
@@ -67,7 +70,7 @@ function Root() {
                             </button>
 
                             <button class="button modal-button open-modal is-medium" data-target="modal-image"
-                                onclick={openWin(230, 200)}>
+                                onclick={openWin(210, 230)}>
                                 <svg style="width:24px;height:24px" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="external-link-alt" class="svg-inline--fa fa-external-link-alt fa-w-18" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="currentColor" d="M576 24v127.984c0 21.461-25.96 31.98-40.971 16.971l-35.707-35.709-243.523 243.523c-9.373 9.373-24.568 9.373-33.941 0l-22.627-22.627c-9.373-9.373-9.373-24.569 0-33.941L442.756 76.676l-35.703-35.705C391.982 25.9 402.656 0 424.024 0H552c13.255 0 24 10.745 24 24zM407.029 270.794l-16 16A23.999 23.999 0 0 0 384 303.765V448H64V128h264a24.003 24.003 0 0 0 16.97-7.029l16-16C376.089 89.851 365.381 64 344 64H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V287.764c0-21.382-25.852-32.09-40.971-16.97z"></path></svg>
                                 Go into minimalistic window
              </button>
@@ -102,6 +105,7 @@ function Root() {
          </div>
                         <div class="accordion-body">
                             <div class="accordion-content">
+                                <p>Press tab or enter or click elsewhere for input changes to take effect</p>
                                 <div class="field is-horizontal">
                                     <div class="field-label is-normal">
                                         <label class="label">Break duration</label>
@@ -109,7 +113,7 @@ function Root() {
                                     <div class="field-body">
                                         <div class="field">
                                             <p class="control is-expanded">
-                                                <input oninput={act.cbreak} class="input" type='number' type="text" placeholder={s.break} />
+                                                <input onchange={act.cbreak} class="input" type='number' type="text" placeholder={s.break} />
                                             </p>
                                         </div>
                                     </div>
@@ -121,7 +125,7 @@ function Root() {
                                     <div class="field-body">
                                         <div class="field">
                                             <p class="control is-expanded">
-                                                <input oninput={act.cbigBreak} class="input" type="text" placeholder={s.bigBreak} />
+                                                <input onchange={act.cbigBreak} class="input" type="text" placeholder={s.bigBreak} />
                                             </p>
                                         </div>
                                     </div>
@@ -133,7 +137,7 @@ function Root() {
                                     <div class="field-body">
                                         <div class="field">
                                             <p class="control is-expanded">
-                                                <input oninput={act.cwork} class="input" type="text" placeholder={s.work} />
+                                                <input onchange={act.cwork} class="input" type="text" placeholder={s.work} />
                                             </p>
                                         </div>
                                     </div>
@@ -145,7 +149,7 @@ function Root() {
                                     <div class="field-body">
                                         <div class="field">
                                             <p class="control is-expanded">
-                                                <input oninput={act.csessionsLen} class="input" type="text" placeholder={s.s.sessions} />
+                                                <input onchange={act.csessionsLen} class="input" type="text" placeholder={s.s.sessions} />
                                             </p>
                                             <p class="help">number of work cycles before big break</p>
                                         </div>
@@ -159,7 +163,7 @@ function Root() {
                                         <div class="field">
                                             <div class="control is-narrow">
                                                 <label class="checkbox">
-                                                    <input oninput={act.tautobreak} type="checkbox" checked={s.s.autobreak} />
+                                                    <input onchange={act.tautobreak} type="checkbox" checked={s.s.autobreak} />
                                                 </label>
                                             </div>
                                         </div>
@@ -173,7 +177,7 @@ function Root() {
                                         <div class="field">
                                             <div class="control is-narrow">
                                                 <label class="checkbox">
-                                                    <input oninput={act.tautowork} type="checkbox" checked={s.s.autowork} />
+                                                    <input onchange={act.tautowork} type="checkbox" checked={s.s.autowork} />
                                                 </label>
                                             </div>
                                         </div>
@@ -189,7 +193,7 @@ function Root() {
                                     <div class="field-body">
                                         <div class="field">
                                             <p class="control is-expanded">
-                                                <input oninput={act.cvolume} class="input" type="text" placeholder={s.s.volume} />
+                                                <input onchange={act.cvolume} class="input" type="text" placeholder={s.s.volume} />
                                             </p>
                                         </div>
                                     </div>
@@ -201,7 +205,7 @@ function Root() {
                                     <div class="field-body">
                                         <div class="field">
                                             <p class="control is-expanded">
-                                                <input oninput={act.tnotifications} type="checkbox" checked={s.s.notifications} /> {Push.Permission.has() ? "Browser permits notifications" : "Browser is blocking notifications, unblock if requests are blocked, toggle to grant permissions"}
+                                                <input onchange={act.tnotifications} type="checkbox" checked={s.s.notifications} /> {Push.Permission.has() ? "Browser permits notifications" : "Browser is blocking notifications, unblock if requests are blocked, toggle to grant permissions"}
                                             </p>
                                         </div>
                                     </div>
@@ -216,8 +220,9 @@ function Root() {
                         </div>
                         <div class="accordion-body">
                             <div class="accordion-content">
-                                <p>This service is ad free, and private.
-                 </p>
+                            <p>Press tab or enter or click elsewhere for input changes to take effect</p>
+
+                                <p>This service is ad free, and private. Consider donating</p>
                                 Monthly:
                  <a href="https://www.patreon.com/bePatron?u=8723710"
                                     data-patreon-widget-type="become-patron-button">Become a Patron!</a>
@@ -232,10 +237,10 @@ function Root() {
                                 <br />
                                 Pay for what you use with web mining with a percentage of your computer power (CPU):
                  <br />
-                                <input placeholder={100 - s.s.amountToMine} onChange={(val) => { const inverse = { target: { value: 100 - val.target.value } }; return act.camountToMine(inverse) }} />
+                                <input placeholder={100 - s.s.amountToMine} onchange={(val) => { const inverse = 100 - val.target.value; console.log(inverse); return act.camountToMine(inverse < 0? 0: inverse) }} />
                                 <br />
                                 Mining doesn't add up to a lot in electricity consumption, or value generated. It's roughly 15$
-                                if running 24/7 for a month at full power on powerful computer, of which I get over 50%. If there's something that requires you computer's full attention this will take back seat. Only a single tab/window will mine.
+                                if running 24/7 for a month at full power on powerful computer, of which I get over 50%. If there's something that requires you computer's full attention this will take back seat. Only a single tab/window will mine (when cross-tab/window synchronization feature gets implemented).
              </div>
                         </div>
                     </article>

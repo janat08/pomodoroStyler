@@ -101,7 +101,7 @@ function initialize({ observable, autorun, toJS, actions, defaultState, nonHash 
     listenStorage(s, acts, hash, timeout)
     beginPublishingState(s, toJS, autorun, noSync.concat(["id", "active", "primary"]))
     removeActiveOnLeave(id, s)
-    console.log('primary', s.primary, s.id, toJS(s.active))
+    console.log('primary', s.primary, primary, s.id, toJS(s.active))
     return { state: s, actions: acts }
 }
 

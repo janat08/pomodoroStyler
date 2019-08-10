@@ -12,6 +12,10 @@ if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
     });
 }
 
+if (window.innerHeight< 100){
+  window.resizeTo(200, 50)
+}
+
 document.addEventListener('click', function (event) {
   // Ignore clicks that weren't on the toggle button
   if (!event.target.hasAttribute('data-toggle-fullscreen')) return;
