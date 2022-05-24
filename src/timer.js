@@ -1,7 +1,6 @@
 import { autorun} from 'mobx'
 import hyperElement from 'hyper-element'
-import {act, s} from "./store"
-import {go} from './index'
+import {act, go, s} from "./store"
 
 
 document.registerElement("timer-modal", class extends hyperElement {

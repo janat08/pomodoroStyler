@@ -6,12 +6,7 @@ import store from 'store'
 import expire from 'store/plugins/expire'
 import events from 'store/plugins/events'
 import obs from 'store/plugins/observe'
-
-import alarmwatch from "../sounds/alarmwatch.mp3"
-import eAlarm from "../sounds/80sAlarm.mp3"
-import alarmClock from "../sounds/alarmclock.mp3"
-import ding from "../sounds/ding.mp3"
-import doorbell from "../sounds/doorbell.mp3"
+import Navigo from 'navigo'
 
 // import basic from './basic.html'
 
@@ -40,8 +35,9 @@ function setc(key, val, duration = 1000) {
 }
 
 const soundsNames = ["Alarm Watch", "80s Alarm", "Alarm Clock", "Ding", "Doorbell"]
-const sounds = [alarmwatch, eAlarm, alarmClock, ding, doorbell].map(genP)
+const sounds = ["/sounds/alarmwatch.mp3", "/sounds/80sAlarm.mp3" ,"/sounds/alarmclock.mp3", "/sounds/ding.mp3", "/sounds/doorbell.mp3"].map(genP)
 
+//storage versioning
 const verId = 12111111111111111
 const now = new Date().getTime()
 const defaultState = {
@@ -282,4 +278,27 @@ window.addEventListener('beforeunload', (event) => {
     return
 });
 
-export { s, act, sounds, soundsNames }
+var root = null;
+var useHash = false; // Defaults to: false
+var hash = '#!'; // Defaults to: '#'
+var router = new Navigo(root, useHash, hash);
+
+const go = {
+  h: () => router.navigate('/'),
+  t: () => router.navigate('/timer')
+}
+
+router
+  .on('/timer', function () {
+    s.timerModal = true
+  })
+  .resolve();
+
+router
+  .on(function () {
+    s.timerModal = false
+  })
+  .resolve();
+
+
+export { s, act, sounds, soundsNames, go }

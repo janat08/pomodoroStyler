@@ -7,7 +7,7 @@ import "./src"
 
 if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
 } else if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js')
+  navigator.serviceWorker.register(new URL('/sw.js'))
     .then(function () {
       console.log('Service Worker Registered');
     });
